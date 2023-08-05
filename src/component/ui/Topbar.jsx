@@ -28,6 +28,7 @@ const Line = styled.hr`
     height: 4px;
     background: #AD88EB;
     margin-top: 15px;
+    border-radius: 50px;
 `
 const SearchContainer = styled.div`
     display: flex;
@@ -49,19 +50,13 @@ const ButtonContainer = styled.div`
 `
 const StyledButton = styled.button`
     background: #fff;
-    margin: 5px;
+    margin: 0px 5px 0px 0px;
     border: 0px;
     cursor: pointer;
 `
 
 const Topbar = () => {
     const [ main, setMain ] = useState(true);
-    const handleMain = () => {
-        setMain(true);
-    };
-    const handleNotMain = () => {
-        setMain(false);
-    };
 
     const [search, setSearch] = useState("");
     const onChange = (e) => {
@@ -71,12 +66,12 @@ const Topbar = () => {
     return (
         <Bar>
             <NavContainer>
-                <Navi onClick={handleMain}>메인페이지{main && <Line />}</Navi>
-                <Navi onClick={handleNotMain}>서비스 신청{!main && <Line />}</Navi>
+                <Navi onClick={() => {setMain(true)}}>메인페이지{main && <Line />}</Navi>
+                <Navi onClick={() => {setMain(false)}}>서비스 신청{!main && <Line />}</Navi>
             </NavContainer>
             <SearchContainer>
-                <Search placeholder='필요한 프로그램을 찾아보세요. (예: 바리스타)' onChange={onChange}/>
-                <BsSearch />
+                <Search type="text" value={search} placeholder='필요한 프로그램을 찾아보세요. (예: 바리스타)' onChange={onChange}/>
+                <StyledButton><BsSearch /></StyledButton>
             </SearchContainer>
             <ButtonContainer>
                 <StyledButton>마이페이지</StyledButton>
