@@ -7,10 +7,10 @@ const Bar = styled.div`
     width: 100%;
     position: fixed;
     top: 0;
+    padding-left: 73px;
 `
 const LogoTxt = styled.div`
     line-height: 96px;
-    margin-left: 73px;
 `
 
 const Logobar = () => {
