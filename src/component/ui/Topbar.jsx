@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
+import { useNavigate } from "react-router-dom";
 
 const Bar = styled.div`
     background: #fff;
@@ -56,6 +57,7 @@ const StyledButton = styled.button`
 `
 
 const Topbar = () => {
+    const navigate = useNavigate();
     const [ main, setMain ] = useState(true);
 
     const [search, setSearch] = useState("");
@@ -66,8 +68,8 @@ const Topbar = () => {
     return (
         <Bar>
             <NavContainer>
-                <Navi onClick={() => {setMain(true)}}>메인페이지{main && <Line />}</Navi>
-                <Navi onClick={() => {setMain(false)}}>서비스 신청{!main && <Line />}</Navi>
+                <Navi onClick={() => {setMain(true); navigate("/")}}>메인페이지{main && <Line />}</Navi>
+                <Navi onClick={() => {setMain(false); navigate("/service")}}>서비스 신청{!main && <Line />}</Navi>
             </NavContainer>
             <SearchContainer>
                 <Search type="text" value={search} placeholder='필요한 프로그램을 찾아보세요. (예: 바리스타)' onChange={onChange}/>
@@ -75,7 +77,7 @@ const Topbar = () => {
             </SearchContainer>
             <ButtonContainer>
                 <StyledButton>마이페이지</StyledButton>
-                <StyledButton>로그인</StyledButton>
+                <StyledButton onClick={() => {navigate("/login")}}>로그인</StyledButton>
                 <StyledButton>회원가입</StyledButton>
             </ButtonContainer>
         </Bar>
