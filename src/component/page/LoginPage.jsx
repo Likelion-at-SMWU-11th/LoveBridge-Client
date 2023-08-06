@@ -88,7 +88,7 @@ function LoginPage() {
                 <Input 
                     type="text" name="id" value={username} onChange={onChangeUsername} placeholder="아이디 (이메일)"/>
                 <Input 
-                    type="text" name="password" value={password} onChange={onChangePassword} placeholder="비밀번호"/>
+                    type="password" name="password" value={password} onChange={onChangePassword} placeholder="비밀번호"/>
                 <LoginBtnContainer><Button title="로그인하기"/></LoginBtnContainer>
                 <SNSContainer>
                     <Txt>SNS 계정으로 로그인하기</Txt>
