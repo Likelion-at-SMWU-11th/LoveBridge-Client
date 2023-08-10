@@ -7,7 +7,7 @@ import MainPage from './component/page/MainPage';
 import ServicePage from './component/page/ServicePage';
 
 const Page = styled.div`
-  margin-top: 180px;
+  margin-top: 113px;
 `
 
 function App() {
