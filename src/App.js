@@ -1,7 +1,6 @@
 import './App.css';
 import { Routes, Route } from "react-router-dom";
 import styled from 'styled-components';
-import Logobar from './component/ui/Logobar';
 import Topbar from './component/ui/Topbar';
 import LoginPage from './component/page/LoginPage';
 import MainPage from './component/page/MainPage';
@@ -14,7 +13,6 @@ const Page = styled.div`
 function App() {
   return (
     <>
-    <Logobar />
     <Topbar />
     <Page>
       <Routes>
