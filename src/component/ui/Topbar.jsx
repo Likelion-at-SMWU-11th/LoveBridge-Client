@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
 import { useNavigate } from "react-router-dom";
+import { motion } from 'framer-motion';
 import logo from '../img/logo.svg';
 
 const Bar = styled.div`
@@ -24,12 +25,13 @@ const Navi = styled.div`
     cursor: pointer;
     margin-right: 40px;
 `
-const Line = styled.hr`
+const Line = styled(motion.hr)`
     border: 0;
     height: 4px;
     background: #AD88EB;
     margin-top: 37px;
     border-radius: 50px;
+    transition: all ease 0.3s;
 `
 const SearchContainer = styled.div`
     display: flex;
@@ -84,8 +86,8 @@ const Topbar = () => {
             <LogoNaviContainer>
             <LogoImg onClick={() => navigate("/")}><img src={logo}/></LogoImg>
             <NavContainer>
-                <Navi onClick={() => {setMain(true); navigate("/apply")}}>신청 목록{main && <Line />}</Navi>
-                <Navi onClick={() => {setMain(false); navigate("/my")}}>마이페이지{!main && <Line />}</Navi>
+                <Navi onClick={() => {setMain(true); navigate("/apply")}}>신청 목록{main && <Line initial={{ scale: 0 }} animate={{ scale: 1 }}/>}</Navi>
+                <Navi onClick={() => {setMain(false); navigate("/my")}}>마이페이지{!main && <Line initial={{ scale: 0 }} animate={{ scale: 1 }}/>}</Navi>
             </NavContainer>
             </LogoNaviContainer>
             <SearchContainer>
