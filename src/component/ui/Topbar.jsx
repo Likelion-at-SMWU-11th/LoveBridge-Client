@@ -84,7 +84,7 @@ const Topbar = () => {
             <LogoNaviContainer>
             <LogoImg onClick={() => navigate("/")}><img src={logo}/></LogoImg>
             <NavContainer>
-                <Navi onClick={() => {setMain(true); navigate("/")}}>신청 목록{main && <Line />}</Navi>
+                <Navi onClick={() => {setMain(true); navigate("/apply")}}>신청 목록{main && <Line />}</Navi>
                 <Navi onClick={() => {setMain(false); navigate("/my")}}>마이페이지{!main && <Line />}</Navi>
             </NavContainer>
             </LogoNaviContainer>
