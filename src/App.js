@@ -8,7 +8,7 @@ import ApplyPage from './component/page/ApplyPage';
 import MyPage from './component/page/MyPage';
 
 const Page = styled.div`
-  margin-top: 113px;
+  margin-top: 90px;
 `
 
 function App() {
