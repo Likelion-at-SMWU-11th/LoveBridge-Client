@@ -14,6 +14,7 @@ const Bar = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 10;
 `
 const NavContainer = styled.div`
     display: flex;
@@ -85,7 +86,7 @@ const Topbar = () => {
 
     return (
         <Bar>
-            <LogoNaviContainer style={main? {marginBottom: "28.3px"} : {}}>
+            <LogoNaviContainer style={main? {marginBottom: "30px"} : {}}>
             <LogoImg onClick={() => {setMain(true); navigate("/")}}><img src={logo}/></LogoImg>
             <NavContainer>
                 <Navi onClick={() => {setMain(false); setApply(true); navigate("/apply")}}>신청 목록{!main && apply && <Line initial={{ scale: 0 }} animate={{ scale: 1 }}/>}</Navi>
