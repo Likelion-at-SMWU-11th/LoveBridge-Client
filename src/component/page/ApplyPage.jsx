@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PagePath from '../ui/PagePath';
 import Select from 'react-select';
 import Button from '../ui/Button';
+import ApplyCard from '../ui/ApplyCard';
 
 const Wrapper = styled.div`
   padding: 45px 136px 0px 123px;
@@ -92,9 +93,37 @@ const Total = styled.div`
     font-weight: 350;
   }
 `
+const CardContainer = styled.div`
+`
+const CardLine = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+`
+
+let regionOption = [
+  { value: "서울특별시", label: "서울특별시" },
+  { value: "부산광역시", label: "부산광역시" },
+  { value: "인천광역시", label: "인천광역시" },
+]
+
+let categoryOption = [
+  { value: "자격증", label: "자격증" },
+  { value: "취미", label: "취미" },
+  { value: "체험", label: "체험" },
+]
+
+let sortOption = [
+  { value: "최신순", label: "최신순" },
+  { value: "인기순", label: "인기순" },
+  { value: "마감임박순", label: "마감임박순" },
+]
 
 function ApplyPage() {
   const [ total, setTotal ] = useState(0);
+  const [ region, setRegion ] = useState('');
+  const [ category, setCategory ] = useState('');
+  const [ sort, setSort ] = useState('');
 
   return (
     <Wrapper>
@@ -107,6 +136,8 @@ function ApplyPage() {
           <SelectLine><Txt>지역</Txt> 
           <RegionSelect className="react-select-container"
                     placeholder={<div className="select-placeholder-text">선택</div>}
+                    onChange={(e) => {setRegion(e.value)}}
+                    options={regionOption}
                     components={{
                         IndicatorSeparator: () => null
                     }}/>
@@ -114,6 +145,8 @@ function ApplyPage() {
           <SelectLine><Txt>카테고리</Txt> 
           <CategorySelect className="react-select-container"
                     placeholder=""
+                    onChange={(e) => {setCategory(e.value)}}
+                    options={categoryOption}
                     components={{
                         IndicatorSeparator: () => null
                     }}/>
@@ -121,6 +154,8 @@ function ApplyPage() {
           <SelectLine><Txt>검색정렬</Txt> 
           <SortSelect className="react-select-container"
                     placeholder=""
+                    onChange={(e) => {setSort(e.value)}}
+                    options={sortOption}
                     components={{
                         IndicatorSeparator: () => null,
                         
@@ -131,8 +166,13 @@ function ApplyPage() {
           <StyledButton><Button className="reset" title="초기화" /></StyledButton>
           <Button className="search" title="검색" />
         </ButtonContainer>
+        
       </SelectBox>
       <Total>총 &nbsp;<PuppleTxt className='pupple'>{total}</PuppleTxt> &nbsp;건의 복지서비스가 있습니다.</Total>
+      <CardContainer>
+        <CardLine><ApplyCard /><ApplyCard /></CardLine>
+        <CardLine><ApplyCard /><ApplyCard /></CardLine>
+      </CardContainer>
     </Wrapper>
   )
 }
