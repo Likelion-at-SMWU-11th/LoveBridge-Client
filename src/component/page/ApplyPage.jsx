@@ -11,15 +11,15 @@ const Title = styled.div`
   font-size: 40px;
   font-weight: 700;
   letter-spacing: -2px;
-  margin-top: 8vh;
+  margin-top: 50px;
 `
 const Info = styled.div`
   color: #222;
   font-size: 16px;
   font-weight: 350;
   etter-spacing: -0.8px;
-  margin-top: 5px;
-  margin-bottom: 30px;
+  margin-top: 10px;
+  margin-bottom: 40px;
   letter-spacing: -0.8px;
 `
 const SelectBox = styled.div`
@@ -31,7 +31,7 @@ const PuppleTxt = styled.div`
   color: #AD88EB;
   font-size: 15.565px;
   font-style: normal;
-  font-weight: 350;
+  font-weight: 400;
   letter-spacing: -0.778px;
 `
 const SelectContainer = styled.div`
@@ -58,7 +58,7 @@ const SortSelect = styled(Select)`
 const Txt = styled.div`
   color: #222;
   font-size: 15.565px;  
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -0.778px;
   padding: 7.592px 69.07px 16.538px 0px;
 `
@@ -82,6 +82,15 @@ const StyledButton = styled.div`
 const Total = styled.div`
   display: flex;
   margin: 5vh 0 1vh 0;
+  font-weight: 350;
+  font-size: 20px;
+  color: #222;
+  letter-spacing: -1px;
+  
+  .pupple {
+    font-size: 20px;
+    font-weight: 350;
+  }
 `
 
 function ApplyPage() {
@@ -123,7 +132,7 @@ function ApplyPage() {
           <Button className="search" title="검색" />
         </ButtonContainer>
       </SelectBox>
-      <Total>총 &nbsp;<PuppleTxt>{total}</PuppleTxt> &nbsp;건의 복지서비스가 있습니다.</Total>
+      <Total>총 &nbsp;<PuppleTxt className='pupple'>{total}</PuppleTxt> &nbsp;건의 복지서비스가 있습니다.</Total>
     </Wrapper>
   )
 }

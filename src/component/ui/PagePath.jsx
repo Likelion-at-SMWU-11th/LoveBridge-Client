@@ -11,13 +11,13 @@ const Wrapper = styled.div`
     align-items: center;
 `
 const HomeIcon = styled.div`
-    margin: 3px 2px 0px 0px;
+    margin: 4px 2px 0px 0px;
     cursor: pointer;
 `
 const PageName = styled.div`
     margin: 0px 5px 0px 5px;
     color: #666;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 16px;
     cursor: pointer;
 `

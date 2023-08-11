@@ -20,7 +20,8 @@ const NavContainer = styled.div`
     margin-top: 10px;
 `
 const Navi = styled.div`
-    font-weight: 700;
+    font-weight: 600;
+    color: #222;
     font-size: 1.1em;
     cursor: pointer;
     margin-right: 40px;
