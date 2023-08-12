@@ -92,7 +92,7 @@ const StyledButton = styled.div`
 
 function ApplyCard(props) {
     const { tag, image, title, district, agency, deadline, tel, like, iflike, onClickApply } = props;
-    const [islike, setIslike ] = useState(false); // 초기값을 iflike로
+    const [islike, setIslike ] = useState(iflike); // 초기값을 iflike로
 
     function handleLike() {
         setIslike(!islike);

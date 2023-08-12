@@ -211,7 +211,8 @@ function ApplyPage() {
           agency="서초 사랑의 복지관"
           deadline="2023.08.12"
           tel="02-1111-2222"
-          like="26"/><ApplyCard /></CardLine>
+          like="26"
+          iflike={true}/><ApplyCard /></CardLine>
         <CardLine><ApplyCard /><ApplyCard /></CardLine>
       </CardContainer>
       <Pagination
