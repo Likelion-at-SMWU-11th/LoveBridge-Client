@@ -70,6 +70,7 @@ const FileContainer = styled.div`
         letter-spacing: -0.8px;
         text-align: center;
         margin-right: 10px;
+        cursor: pointer;
         > img {
             margin-left: 5px;
         }
@@ -97,6 +98,7 @@ const FileContainer = styled.div`
         font-weight: 700;
         letter-spacing: -0.8px;
         text-align: center;
+        cursor: pointer;
     }
     .button-box {
         display: flex;
@@ -104,7 +106,6 @@ const FileContainer = styled.div`
 `
 
 function MyDocPage() {
-    const [ familydoc, setFamilydoc ] = useState('');
 
   return (
     <Wrapper>
@@ -114,7 +115,7 @@ function MyDocPage() {
         <FileBox>
             <GreyZone><Txt>서류명</Txt><DocName>가족관계증명서</DocName></GreyZone>
                 <FileContainer>
-                    <input type="text" readonly="readonly" class="file-name"/>
+                    <input type="text" class="file-name" value="" disabled="disabled"></input>
                     <div className='btn-box'>
                     <label for="family-relation" class="file-label">파일 선택<img src={plusicon}/></label>
                     <input type="file" name="" id="family-relation" class="file-upload" />
