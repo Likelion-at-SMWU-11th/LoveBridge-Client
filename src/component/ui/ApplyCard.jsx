@@ -82,6 +82,10 @@ const StyledButton = styled.div`
         background: #6D6F82;
         border-radius: 8px;
         width: 95px;
+
+        &:hover {
+            background: #AD88EB;
+        }
     }
 `
 
