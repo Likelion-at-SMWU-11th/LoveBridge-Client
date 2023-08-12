@@ -105,12 +105,16 @@ let regionOption = [
   { value: "서울특별시", label: "서울특별시" },
   { value: "부산광역시", label: "부산광역시" },
   { value: "인천광역시", label: "인천광역시" },
+  { value: "대전광역시", label: "대전광역시" },
+  { value: "대구광역시", label: "대구광역시" },
 ]
 
 let categoryOption = [
   { value: "자격증", label: "자격증" },
   { value: "취미", label: "취미" },
   { value: "체험", label: "체험" },
+  { value: "운동", label: "운동" },
+  { value: "음악", label: "음악" },
 ]
 
 let sortOption = [
