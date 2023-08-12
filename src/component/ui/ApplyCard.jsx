@@ -86,7 +86,7 @@ const StyledButton = styled.div`
 `
 
 function ApplyCard(props) {
-    const { tag, image, title, district, agency, deadline, tel, like, iflike, onClick } = props;
+    const { tag, image, title, district, agency, deadline, tel, like, iflike, onClickApply } = props;
     return (
         <Card>
             <TopLine><Tag>#{tag || "태그"}</Tag><Like><LikeNum>{like || "0"}</LikeNum><LikeBtn><img src={likebtn}/></LikeBtn></Like></TopLine>
@@ -96,7 +96,7 @@ function ApplyCard(props) {
             <AgencyLine>• 담당기관 <Agency>{agency || "담당기관이름"}</Agency></AgencyLine>
             <AgencyLine>• 지원마감 <Agency>{deadline || "2023.08.12"}</Agency></AgencyLine>
             <AgencyLine>• 문의처 <Agency>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ tel || "02-1234-1234"}</Agency></AgencyLine>
-            <StyledButton><Button title="신청"></Button></StyledButton>
+            <StyledButton><Button title="신청" onClick={onClickApply}></Button></StyledButton>
         </Card>
     );
 };

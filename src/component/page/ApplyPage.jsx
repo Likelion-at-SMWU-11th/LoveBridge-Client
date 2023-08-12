@@ -148,6 +148,14 @@ function ApplyPage() {
     }
   }; // 초기화 기능
 
+  const confirmApply = () => {
+    if (window.confirm("정말 신청하시겠습니까?")) {
+        alert("신청이 완료되었습니다");
+      } else {
+        alert("취소합니다.");
+      }
+  }; // 신청 시 alert
+
   return (
     <Wrapper>
       <PagePath pathname1='신청목록'/>
@@ -196,7 +204,8 @@ function ApplyPage() {
       </SelectBox>
       <Total>총 &nbsp;<PuppleTxt className='pupple'>{total}</PuppleTxt> &nbsp;건의 복지서비스가 있습니다.</Total>
       <CardContainer>
-        <CardLine><ApplyCard /><ApplyCard /></CardLine>
+        <CardLine><ApplyCard tag="자격증"
+          onClickApply={confirmApply}/><ApplyCard /></CardLine>
         <CardLine><ApplyCard /><ApplyCard /></CardLine>
       </CardContainer>
       <Pagination
