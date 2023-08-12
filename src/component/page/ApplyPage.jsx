@@ -4,6 +4,8 @@ import PagePath from '../ui/PagePath';
 import Select from 'react-select';
 import Button from '../ui/Button';
 import ApplyCard from '../ui/ApplyCard';
+import Pagination from 'react-js-pagination';
+import '../style/Pagenation.css'
 
 const Wrapper = styled.div`
   padding: 45px 136px 0px 123px;
@@ -128,6 +130,11 @@ function ApplyPage() {
   const [ region, setRegion ] = useState('');
   const [ category, setCategory ] = useState('');
   const [ sort, setSort ] = useState('');
+  const [page, setPage] = useState(1);
+  
+  const handlePageChange = (page) => {
+    setPage(page);
+  }; // pagenation에서 page 설정
 
   const RegionSelectRef = useRef(null);
   const CategorySelectRef = useRef(null);
@@ -192,6 +199,15 @@ function ApplyPage() {
         <CardLine><ApplyCard /><ApplyCard /></CardLine>
         <CardLine><ApplyCard /><ApplyCard /></CardLine>
       </CardContainer>
+      <Pagination
+        activePage={page}
+        itemsCountPerPage={4}
+        totalItemsCount={30}
+        pageRangeDisplayed={5}
+        prevPageText={"‹"}
+        nextPageText={"›"}
+        onChange={handlePageChange}
+    />
     </Wrapper>
   )
 }
