@@ -7,21 +7,23 @@ import logo from '../img/logo.svg';
 
 const Bar = styled.div`
     background: #fff;
-    height: 113px;
+    height: 90px;
     width: 100%;
     position: fixed;
     top: 0px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 10;
 `
 const NavContainer = styled.div`
     display: flex;
-    margin-top: 20px;
+    margin-top: 10px;
 `
 const Navi = styled.div`
-    font-weight: 700;
-    font-size: 22px;
+    font-weight: 600;
+    color: #222;
+    font-size: 1.1em;
     cursor: pointer;
     margin-right: 40px;
 `
@@ -29,7 +31,7 @@ const Line = styled(motion.hr)`
     border: 0;
     height: 4px;
     background: #AD88EB;
-    margin-top: 37px;
+    margin-top: 30px;
     border-radius: 50px;
     transition: all ease 0.3s;
 `
@@ -38,7 +40,7 @@ const SearchContainer = styled.div`
     line-height: 75px;
     border-radius: 50px;
     border: solid 1.5px #959393;
-    height: 22px;
+    height: 20px;
     padding: 10px 0px 10px 20px;
     width: 650px;
 `
@@ -64,7 +66,7 @@ const StyledButton = styled.button`
 const LogoImg = styled.div`
     margin-left: 39px;
     margin-right: 52px;
-    margin-top: 10px;
+    margin-top: 2px;
     cursor: pointer;
 `
 const LogoNaviContainer = styled.div`
@@ -75,6 +77,7 @@ const LogoNaviContainer = styled.div`
 const Topbar = () => {
     const navigate = useNavigate();
     const [ main, setMain ] = useState(true);
+    const [ apply, setApply ] = useState(true);
 
     const [search, setSearch] = useState("");
     const onChange = (e) => {
@@ -83,11 +86,11 @@ const Topbar = () => {
 
     return (
         <Bar>
-            <LogoNaviContainer>
-            <LogoImg onClick={() => navigate("/")}><img src={logo}/></LogoImg>
+            <LogoNaviContainer style={main? {marginBottom: "30px"} : {}}>
+            <LogoImg onClick={() => {setMain(true); navigate("/")}}><img src={logo}/></LogoImg>
             <NavContainer>
-                <Navi onClick={() => {setMain(true); navigate("/apply")}}>신청 목록{main && <Line initial={{ scale: 0 }} animate={{ scale: 1 }}/>}</Navi>
-                <Navi onClick={() => {setMain(false); navigate("/my")}}>마이페이지{!main && <Line initial={{ scale: 0 }} animate={{ scale: 1 }}/>}</Navi>
+                <Navi onClick={() => {setMain(false); setApply(true); navigate("/apply")}}>신청 목록{!main && apply && <Line initial={{ scale: 0 }} animate={{ scale: 1 }}/>}</Navi>
+                <Navi onClick={() => {setMain(false); setApply(false); navigate("/my")}}>마이페이지{!main && !apply && <Line initial={{ scale: 0 }} animate={{ scale: 1 }}/>}</Navi>
             </NavContainer>
             </LogoNaviContainer>
             <SearchContainer>
