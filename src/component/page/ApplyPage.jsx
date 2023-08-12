@@ -205,7 +205,13 @@ function ApplyPage() {
       <Total>총 &nbsp;<PuppleTxt className='pupple'>{total}</PuppleTxt> &nbsp;건의 복지서비스가 있습니다.</Total>
       <CardContainer>
         <CardLine><ApplyCard tag="자격증"
-          onClickApply={confirmApply}/><ApplyCard /></CardLine>
+          onClickApply={confirmApply}
+          title="바리스타 자격증"
+          district="서울특별시 강남구"
+          agency="서초 사랑의 복지관"
+          deadline="2023.08.12"
+          tel="02-1111-2222"
+          like="26"/><ApplyCard /></CardLine>
         <CardLine><ApplyCard /><ApplyCard /></CardLine>
       </CardContainer>
       <Pagination

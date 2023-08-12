@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import likebtn from '../img/likebtn.svg';
+import likebtnactive from '../img/likebtnactive.svg';
 import Button from './Button';
 
 const Card = styled.div`
@@ -91,9 +92,21 @@ const StyledButton = styled.div`
 
 function ApplyCard(props) {
     const { tag, image, title, district, agency, deadline, tel, like, iflike, onClickApply } = props;
+    const [islike, setIslike ] = useState(false); // 초기값을 iflike로
+
+    function handleLike() {
+        setIslike(!islike);
+    }
+
     return (
         <Card>
-            <TopLine><Tag>#{tag || "태그"}</Tag><Like><LikeNum>{like || "0"}</LikeNum><LikeBtn><img src={likebtn}/></LikeBtn></Like></TopLine>
+            <TopLine>
+                <Tag>#{tag || "태그"}</Tag>
+                <Like>
+                    <LikeNum>{like || "0"}</LikeNum>
+                    {islike? <LikeBtn onClick={handleLike}><img src={likebtnactive}/></LikeBtn> : <LikeBtn onClick={handleLike}><img src={likebtn}/></LikeBtn>}
+                </Like>
+            </TopLine>
             <ImgContainer></ImgContainer>
             <Title>{ title || "서비스이름" }</Title>
             <District>{district || "OO시 OO구 "}</District>
