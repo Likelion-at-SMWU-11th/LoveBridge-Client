@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import Banner from "../ui/Banner";
+import Hot from "../ui/Hot";
 
 function MainPage() {
   return (
-    <div>MainPage</div>
-  )
+    <div>
+      <Banner />
+      <Hot />
+    </div>
+  );
 }
 
-export default MainPage
+export default MainPage;
