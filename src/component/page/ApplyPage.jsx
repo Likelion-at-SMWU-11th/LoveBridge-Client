@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components';
 import { Form } from 'react-validation/build/form';
+import axios from 'axios';
 
 import PagePath from '../ui/PagePath';
 import Select from 'react-select';
@@ -173,7 +174,15 @@ function ApplyPage() {
   }; // 신청 시 alert
 
   const handleSearch = () => {
-
+      axios.post('', {region: region, category: category, sort: sort})
+      .then(response => {
+        setRegion('');
+        setCategory('');
+        setSort('');
+      })
+      .catch(error => {
+        console.error('Error handle search: ', error);
+      });
   };
 
   return (
