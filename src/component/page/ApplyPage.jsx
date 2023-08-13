@@ -27,7 +27,7 @@ const Info = styled.div`
 `
 const SelectBox = styled.div`
   border: 0.973px solid rgba(0, 0, 0, 0.20);
-  height: 40vh;
+  height: 350px;
   padding: 30px 45px 30px 45px;
 `
 const PuppleTxt = styled.div`
