@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components';
-import { Form } from 'react-validation/build/form';
 import axios from 'axios';
 
 import PagePath from '../ui/PagePath';
@@ -9,6 +8,7 @@ import Button from '../ui/Button';
 import ApplyCard from '../ui/ApplyCard';
 import Pagination from 'react-js-pagination';
 import '../style/Pagenation.css'
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
   padding: 45px 136px 0px 123px;
@@ -143,6 +143,8 @@ let sortOption = [
 
 function ApplyPage() {
   const form = useRef();
+  const navigate = useNavigate();
+
   const [ total, setTotal ] = useState(0);
   const [ region, setRegion ] = useState('');
   const [ category, setCategory ] = useState('');
@@ -190,7 +192,7 @@ function ApplyPage() {
       <PagePath pathname1='신청목록'/>
       <Title>자립지원프로그램 검색</Title>
       <Info>한 눈에 보고 , 클릭 한번으로 서비스를 신청할 수 있습니다.</Info>
-      <Form method='post' onSubmit={handleSearch} ref={form}>
+      <form method='post' onSubmit={handleSearch} ref={form}>
       <SelectBox>
         <PuppleTxt>항목을 선택해주세요.</PuppleTxt>
         <SelectContainer>
@@ -228,12 +230,12 @@ function ApplyPage() {
           </SelectLine>
         </SelectContainer>
         <ButtonContainer>
-          <StyledButton><Button className="reset" title="초기화" onClick={() => handleReset()}/></StyledButton>
-          <Button className="search" title="검색" />
+          <StyledButton><Button className="reset" type="button" title="초기화" onClick={() => handleReset()}/></StyledButton>
+          <Button className="search" title="검색" type="submit" onClick={() => navigate('/apply')}/>
         </ButtonContainer>
         
       </SelectBox>
-      </Form>
+      </form>
       <Total>총 &nbsp;<PuppleTxt className='pupple'>{total}</PuppleTxt> &nbsp;건의 복지서비스가 있습니다.</Total>
       <CardContainer>
         <CardLine><ApplyCard tag="자격증"
