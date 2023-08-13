@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components';
+import { Form } from 'react-validation/build/form';
+
 import PagePath from '../ui/PagePath';
 import Select from 'react-select';
 import Button from '../ui/Button';
@@ -56,7 +58,7 @@ const CategorySelect = styled(Select)`
   width: 15vw;
 `
 const SortSelect = styled(Select)`
-  width: 8vw;
+  width: 9vw;
 `
 const Txt = styled.div`
   color: #222;
@@ -102,6 +104,19 @@ const CardLine = styled.div`
   justify-content: space-between;
   margin-top: 30px;
 `
+// const customStyles = {
+//   control: (provided) => ({
+//     ...provided,
+//     '&:active': {
+//       ...provided[":active"],
+//       borderColor: "#AD88EB"},
+//   }),
+//   option: (provided, state) => ({
+//     ...provided,
+//     backgroundColor: state.isSelected? "#AD88EB" : "#fff",
+//     '&:hover': {backgroundColor: "#F4F2FB"},
+//   }),
+// };
 
 let regionOption = [
   { value: "서울특별시", label: "서울특별시" },
@@ -126,6 +141,7 @@ let sortOption = [
 ]
 
 function ApplyPage() {
+  const form = useRef();
   const [ total, setTotal ] = useState(0);
   const [ region, setRegion ] = useState('');
   const [ category, setCategory ] = useState('');
@@ -156,11 +172,16 @@ function ApplyPage() {
       }
   }; // 신청 시 alert
 
+  const handleSearch = () => {
+
+  };
+
   return (
     <Wrapper>
       <PagePath pathname1='신청목록'/>
       <Title>자립지원프로그램 검색</Title>
       <Info>한 눈에 보고 , 클릭 한번으로 서비스를 신청할 수 있습니다.</Info>
+      <Form method='post' onSubmit={handleSearch} ref={form}>
       <SelectBox>
         <PuppleTxt>항목을 선택해주세요.</PuppleTxt>
         <SelectContainer>
@@ -170,6 +191,7 @@ function ApplyPage() {
                     onChange={ (e) => {if (e) {setRegion(e.value);} else {setRegion("");}}}
                     options={regionOption}
                     ref={RegionSelectRef}
+                    //styles={customStyles}
                     components={{
                         IndicatorSeparator: () => null
                     }}/>
@@ -202,6 +224,7 @@ function ApplyPage() {
         </ButtonContainer>
         
       </SelectBox>
+      </Form>
       <Total>총 &nbsp;<PuppleTxt className='pupple'>{total}</PuppleTxt> &nbsp;건의 복지서비스가 있습니다.</Total>
       <CardContainer>
         <CardLine><ApplyCard tag="자격증"
