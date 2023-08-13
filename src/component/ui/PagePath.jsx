@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from 'styled-components';
 import home from '../img/home.svg';
 import arrow from '../img/arrow.svg';
@@ -41,6 +41,7 @@ const Home = styled.div`
 function PagePath(props) {
     const { pathname1, pathname2 } = props;
     const navigate = useNavigate();
+    const location = useLocation();
 
     return (
         <Wrapper>
@@ -51,7 +52,7 @@ function PagePath(props) {
             { pathname1 &&
             <Path1>
             <ArrowIcon><img src={arrow}/></ArrowIcon>
-            <PageName>{pathname1}</PageName>
+            {pathname1 && location.pathname.substring(0,3) === "/my"? <PageName onClick={() => navigate('/my')}>{pathname1}</PageName> : <PageName >{pathname1}</PageName>}
             </Path1>
             }
             { pathname2 &&

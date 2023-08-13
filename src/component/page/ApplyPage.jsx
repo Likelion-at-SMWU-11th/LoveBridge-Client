@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import styled from 'styled-components';
 import PagePath from '../ui/PagePath';
 import Select from 'react-select';
 import Button from '../ui/Button';
 import ApplyCard from '../ui/ApplyCard';
+import Pagination from 'react-js-pagination';
+import '../style/Pagenation.css'
 
 const Wrapper = styled.div`
   padding: 45px 136px 0px 123px;
@@ -128,6 +130,31 @@ function ApplyPage() {
   const [ region, setRegion ] = useState('');
   const [ category, setCategory ] = useState('');
   const [ sort, setSort ] = useState('');
+  const [page, setPage] = useState(1);
+  
+  const handlePageChange = (page) => {
+    setPage(page);
+  }; // pagenation에서 page 설정
+
+  const RegionSelectRef = useRef(null);
+  const CategorySelectRef = useRef(null);
+  const SortSelectRef = useRef(null);
+
+  const handleReset = () => {
+    if (RegionSelectRef.current || CategorySelectRef.current || SortSelectRef.current) {
+      RegionSelectRef.current.clearValue();
+      CategorySelectRef.current.clearValue();
+      SortSelectRef.current.clearValue();
+    }
+  }; // 초기화 기능
+
+  const confirmApply = () => {
+    if (window.confirm("정말 신청하시겠습니까?")) {
+        alert("신청이 완료되었습니다");
+      } else {
+        alert("취소합니다.");
+      }
+  }; // 신청 시 alert
 
   return (
     <Wrapper>
@@ -140,8 +167,9 @@ function ApplyPage() {
           <SelectLine><Txt>지역</Txt> 
           <RegionSelect className="react-select-container"
                     placeholder={<div className="select-placeholder-text">선택</div>}
-                    onChange={(e) => {setRegion(e.value)}}
+                    onChange={ (e) => {if (e) {setRegion(e.value);} else {setRegion("");}}}
                     options={regionOption}
+                    ref={RegionSelectRef}
                     components={{
                         IndicatorSeparator: () => null
                     }}/>
@@ -149,8 +177,9 @@ function ApplyPage() {
           <SelectLine><Txt>카테고리</Txt> 
           <CategorySelect className="react-select-container"
                     placeholder=""
-                    onChange={(e) => {setCategory(e.value)}}
+                    onChange={(e) => {if (e) {setCategory(e.value);} else {setCategory("");}}}
                     options={categoryOption}
+                    ref={CategorySelectRef}
                     components={{
                         IndicatorSeparator: () => null
                     }}/>
@@ -158,8 +187,9 @@ function ApplyPage() {
           <SelectLine><Txt>검색정렬</Txt> 
           <SortSelect className="react-select-container"
                     placeholder=""
-                    onChange={(e) => {setSort(e.value)}}
+                    onChange={(e) => {if (e) {setSort(e.value);} else {setSort("");}}}
                     options={sortOption}
+                    ref={SortSelectRef}
                     components={{
                         IndicatorSeparator: () => null,
                         
@@ -167,16 +197,33 @@ function ApplyPage() {
           </SelectLine>
         </SelectContainer>
         <ButtonContainer>
-          <StyledButton><Button className="reset" title="초기화" /></StyledButton>
+          <StyledButton><Button className="reset" title="초기화" onClick={() => handleReset()}/></StyledButton>
           <Button className="search" title="검색" />
         </ButtonContainer>
         
       </SelectBox>
       <Total>총 &nbsp;<PuppleTxt className='pupple'>{total}</PuppleTxt> &nbsp;건의 복지서비스가 있습니다.</Total>
       <CardContainer>
-        <CardLine><ApplyCard /><ApplyCard /></CardLine>
+        <CardLine><ApplyCard tag="자격증"
+          onClickApply={confirmApply}
+          title="바리스타 자격증"
+          district="서울특별시 강남구"
+          agency="서초 사랑의 복지관"
+          deadline="2023.08.12"
+          tel="02-1111-2222"
+          like="26"
+          iflike={true}/><ApplyCard /></CardLine>
         <CardLine><ApplyCard /><ApplyCard /></CardLine>
       </CardContainer>
+      <Pagination
+        activePage={page}
+        itemsCountPerPage={4}
+        totalItemsCount={30}
+        pageRangeDisplayed={5}
+        prevPageText={"‹"}
+        nextPageText={"›"}
+        onChange={handlePageChange}
+    />
     </Wrapper>
   )
 }

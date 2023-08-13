@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BsSearch } from 'react-icons/bs';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from 'framer-motion';
 import logo from '../img/logo.svg';
 
@@ -76,8 +76,7 @@ const LogoNaviContainer = styled.div`
 
 const Topbar = () => {
     const navigate = useNavigate();
-    const [ main, setMain ] = useState(true);
-    const [ apply, setApply ] = useState(true);
+    const location = useLocation();
 
     const [search, setSearch] = useState("");
     const onChange = (e) => {
@@ -86,11 +85,17 @@ const Topbar = () => {
 
     return (
         <Bar>
-            <LogoNaviContainer style={main? {marginBottom: "30px"} : {}}>
-            <LogoImg onClick={() => {setMain(true); navigate("/")}}><img src={logo}/></LogoImg>
+            <LogoNaviContainer style={location.pathname === "/" || location.pathname === "/login" ? {marginBottom: "30px"} : {}}>
+            <LogoImg onClick={() => navigate("/")}><img src={logo}/></LogoImg>
             <NavContainer>
-                <Navi onClick={() => {setMain(false); setApply(true); navigate("/apply")}}>신청 목록{!main && apply && <Line initial={{ scale: 0 }} animate={{ scale: 1 }}/>}</Navi>
-                <Navi onClick={() => {setMain(false); setApply(false); navigate("/my")}}>마이페이지{!main && !apply && <Line initial={{ scale: 0 }} animate={{ scale: 1 }}/>}</Navi>
+                <Navi onClick={() => navigate("/apply")}>신청 목록
+                {location.pathname !== "/login" && 
+                 location.pathname !== "/" && 
+                 location.pathname === "/apply" && <Line initial={{ scale: 0 }} animate={{ scale: 1 }}/>}</Navi>
+                <Navi onClick={() =>  navigate("/my")}>마이페이지
+                {location.pathname !== "/login" && 
+                 location.pathname !== "/" && 
+                 location.pathname.substring(0,3) === "/my" && <Line initial={{ scale: 0 }} animate={{ scale: 1 }}/>}</Navi>
             </NavContainer>
             </LogoNaviContainer>
             <SearchContainer>

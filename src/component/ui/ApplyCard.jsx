@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import likebtn from '../img/likebtn.svg';
+import likebtnactive from '../img/likebtnactive.svg';
 import Button from './Button';
 
 const Card = styled.div`
@@ -82,21 +83,37 @@ const StyledButton = styled.div`
         background: #6D6F82;
         border-radius: 8px;
         width: 95px;
+
+        &:hover {
+            background: #AD88EB;
+        }
     }
 `
 
 function ApplyCard(props) {
-    const { tag, image, title, district, agency, deadline, tel, like, iflike, onClick } = props;
+    const { tag, image, title, district, agency, deadline, tel, like, iflike, onClickApply } = props;
+    const [islike, setIslike ] = useState(iflike); // 초기값을 iflike로
+
+    function handleLike() {
+        setIslike(!islike);
+    }
+
     return (
         <Card>
-            <TopLine><Tag>#{tag || "태그"}</Tag><Like><LikeNum>{like || "0"}</LikeNum><LikeBtn><img src={likebtn}/></LikeBtn></Like></TopLine>
+            <TopLine>
+                <Tag>#{tag || "태그"}</Tag>
+                <Like>
+                    <LikeNum>{like || "0"}</LikeNum>
+                    {islike? <LikeBtn onClick={handleLike}><img src={likebtnactive}/></LikeBtn> : <LikeBtn onClick={handleLike}><img src={likebtn}/></LikeBtn>}
+                </Like>
+            </TopLine>
             <ImgContainer></ImgContainer>
             <Title>{ title || "서비스이름" }</Title>
             <District>{district || "OO시 OO구 "}</District>
             <AgencyLine>• 담당기관 <Agency>{agency || "담당기관이름"}</Agency></AgencyLine>
             <AgencyLine>• 지원마감 <Agency>{deadline || "2023.08.12"}</Agency></AgencyLine>
             <AgencyLine>• 문의처 <Agency>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ tel || "02-1234-1234"}</Agency></AgencyLine>
-            <StyledButton><Button title="신청"></Button></StyledButton>
+            <StyledButton><Button title="신청" onClick={onClickApply}></Button></StyledButton>
         </Card>
     );
 };

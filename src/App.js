@@ -5,7 +5,10 @@ import Topbar from './component/ui/Topbar';
 import LoginPage from './component/page/LoginPage';
 import MainPage from './component/page/MainPage';
 import ApplyPage from './component/page/ApplyPage';
-import MyPage from './component/page/MyPage';
+import MyPage from './component/page/MyPage/MyPage';
+import MyDocPage from './component/page/MyPage/MyDocPage';
+import MyApplyPage from './component/page/MyPage/MyApplyPage';
+import MyLikePage from './component/page/MyPage/MyLikePage';
 
 const Page = styled.div`
   margin-top: 90px;
@@ -21,6 +24,9 @@ function App() {
         <Route path='/login' element={<LoginPage />}/>
         <Route path='/apply' element={<ApplyPage />}/>
         <Route path='/my' element={<MyPage />}/>
+        <Route path='/my/doc' element={<MyDocPage />}/>
+        <Route path='/my/apply' element={<MyApplyPage />}/>
+        <Route path='/my/like' element={<MyLikePage />}/>
       </Routes>
     </Page>
     </>
