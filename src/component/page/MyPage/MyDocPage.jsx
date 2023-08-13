@@ -133,7 +133,7 @@ function MyDocPage() {
         <FileBox>
             <GreyZone><Txt>서류명</Txt><DocName>가족관계증명서</DocName></GreyZone>
                 <FileContainer>
-                    <input type="text" className="file-name" value={family.name}></input>
+                    <input type="text" className="file-name" value={family.name} disabled="disabled"></input>
                     <div className='btn-box'>
                     <label for="family-relation" className="file-label">파일 선택<img src={plusicon}/></label>
                     <input type="file" name="" id="family-relation" class="file-upload" onChange={handleChangeFamliy} />
@@ -143,7 +143,7 @@ function MyDocPage() {
         <FileBox>
             <GreyZone><Txt>서류명</Txt><DocName>주민등록등본</DocName></GreyZone>
                 <FileContainer>
-                    <input type="text" readonly="readonly" className="file-name" value={id.name}/>
+                    <input type="text" readonly="readonly" className="file-name" value={id.name} disabled="disabled"/>
                     <div className='btn-box'>
                     <label for="id-card" class="file-label">파일 선택<img src={plusicon}/></label>
                     <input type="file" name="" id="id-card" className="file-upload" onChange={handleChangeId} />
@@ -153,7 +153,7 @@ function MyDocPage() {
         <FileBox>
             <GreyZone><Txt>서류명</Txt><DocName>장애인등록증</DocName></GreyZone>
                 <FileContainer>
-                    <input type="text" readonly="readonly" className="file-name" value={regist.name}/>
+                    <input type="text" readonly="readonly" className="file-name" value={regist.name} disabled="disabled"/>
                     <div className='btn-box'>
                     <label for="disable-regist" className="file-label">파일 선택<img src={plusicon}/></label>
                     <input type="file" name="" id="disable-regist" className="file-upload" onChange={handleChangeRegist}/>
@@ -163,7 +163,7 @@ function MyDocPage() {
         <FileBox>
             <GreyZone><Txt>서류명</Txt><DocName>정부기관 심사결과지</DocName></GreyZone>
                 <FileContainer>
-                    <input type="text" readonly="readonly" class="file-name" value={gov.name}/>
+                    <input type="text" readonly="readonly" class="file-name" value={gov.name} disabled="disabled"/>
                     <div className='btn-box'>
                     <label for="gov-result" class="file-label">파일 선택<img src={plusicon}/></label>
                     <input type="file" name="" id="gov-result" class="file-upload" onChange={handleChangeGov} />
