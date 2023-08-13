@@ -45,24 +45,24 @@ const SearchContainer = styled.div`
     width: 650px;
 `
 const Search = styled.input`
-    border: none;
-    width: 600px;
-    outline: none;
-    margin-right: 10px;
+  border: none;
+  width: 600px;
+  outline: none;
+  margin-right: 10px;
 
-    &::placeholder {
-        color: #C8CAD2;
-    }
-`
+  &::placeholder {
+    color: #c8cad2;
+  }
+`;
 const ButtonContainer = styled.div`
-    margin-right: 75px;
-`
+  margin-right: 75px;
+`;
 const StyledButton = styled.button`
-    background: #fff;
-    margin: 0px 5px 0px 0px;
-    border: 0px;
-    cursor: pointer;
-`
+  background: #fff;
+  margin: 0px 5px 0px 0px;
+  border: 0px;
+  cursor: pointer;
+`;
 const LogoImg = styled.div`
     margin-left: 39px;
     margin-right: 52px;
@@ -70,18 +70,18 @@ const LogoImg = styled.div`
     cursor: pointer;
 `
 const LogoNaviContainer = styled.div`
-    display: flex;
-    margin-top: 36px;
-`
+  display: flex;
+  margin-top: 36px;
+`;
 
 const Topbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [search, setSearch] = useState("");
-    const onChange = (e) => {
-        setSearch(e.target.value)
-    }
+  const [search, setSearch] = useState("");
+  const onChange = (e) => {
+    setSearch(e.target.value);
+  };
 
     return (
         <Bar>

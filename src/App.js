@@ -1,4 +1,4 @@
-import './App.css';
+import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import styled from 'styled-components';
 import Topbar from './component/ui/Topbar';
@@ -9,14 +9,16 @@ import MyPage from './component/page/MyPage/MyPage';
 import MyDocPage from './component/page/MyPage/MyDocPage';
 import MyApplyPage from './component/page/MyPage/MyApplyPage';
 import MyLikePage from './component/page/MyPage/MyLikePage';
+import { createGlobalStyle } from "styled-components";
 
 const Page = styled.div`
-  margin-top: 90px;
-`
+  margin-top: 113px;
+`;
 
 function App() {
   return (
     <>
+      <GlobalStyle />
     <Topbar />
     <Page>
       <Routes>
@@ -34,3 +36,9 @@ function App() {
 }
 
 export default App;
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    font-family: Pretendard Variable;
+  }
+`;
