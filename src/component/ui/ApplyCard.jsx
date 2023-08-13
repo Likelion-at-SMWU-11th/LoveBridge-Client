@@ -8,9 +8,9 @@ const Card = styled.div`
     border-radius: 30px;
     border: 1px solid #DFDFDF;
     background: #FFF;
-    width: 530px;
-    height: 650px;
-    padding: 30px 50px 60px 50px;
+    width: 34vw;
+    height: 75vh;
+    padding: 3vh 3vw 7vh 3vw;
 `
 const TopLine = styled.div`
     display: flex;
@@ -19,9 +19,9 @@ const TopLine = styled.div`
 const Tag = styled.div`
     border-radius: 20px;
     background: #F4F2FB;
-    padding: 5px 13.69px 7px 15px;
+    padding: 7px 15px 7px 15px;
     color: #4F4F4F;
-    font-size: 16px;
+    font-size: 1.1em;
     font-weight: 500;
 `
 const Like = styled.div`
@@ -29,11 +29,11 @@ const Like = styled.div`
 `
 const LikeNum = styled.div`
     color: #666;
-    font-size: 18px;
+    font-size: 1.2em;
     font-style: normal;
     font-weight: 700;
     letter-spacing: -0.8px;
-    padding: 2px 8px;
+    margin: 1vh 1vw;
 `
 const LikeBtn = styled.button`
     background: #fff;
@@ -41,38 +41,38 @@ const LikeBtn = styled.button`
     cursor: pointer;
 `
 const ImgContainer = styled.div`
-    height: 370px;
+    height: 40vh;
     border-radius: 10px;
     background: #d9d9d9;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 2vh;
+    margin-bottom: 3vh;
 `
 const Title = styled.div`
     color: #222;
-    font-size: 24px;
+    font-size: 1.5em;
     font-weight: 700;
     letter-spacing: -1.2px;
-    margin-bottom: 5px;
+    margin-bottom: 0.6vh;
 `
 const District = styled.div`
     color: #4F4F4F;
-    font-size: 16px;
+    font-size: 1.05em;
     font-weight: 350;
     letter-spacing: -0.8px;
-    margin-bottom: 15px;
+    margin-bottom: 1.5vh;
 `
 const AgencyLine = styled.div`
     display: flex;
     color: #222;
-    font-size: 16px;
+    font-size: 1em;
     font-weight: 500;
     letter-spacing: -0.8px;
-    margin: 8px 0px 8px 0px;
+    margin: 1vh 0px 1vh 0px;
 `
 const Agency = styled.div`
-    margin-left: 17px;
+    margin-left: 1.5vw;
     color: #666;
-    font-size: 16px;
+    font-size: 1em;
     font-style: normal;
     font-weight: 500;
     letter-spacing: -0.8px;
@@ -104,7 +104,7 @@ function ApplyCard(props) {
                 <Tag>#{tag || "태그"}</Tag>
                 <Like>
                     <LikeNum>{like || "0"}</LikeNum>
-                    {islike? <LikeBtn onClick={handleLike}><img src={likebtnactive}/></LikeBtn> : <LikeBtn onClick={handleLike}><img src={likebtn}/></LikeBtn>}
+                    {islike? <LikeBtn onClick={handleLike}><img src={likebtnactive}/></LikeBtn> : <LikeBtn onClick={handleLike} style={{marginRight:"2px", marginLeft:"3px"}}><img src={likebtn}/></LikeBtn>}
                 </Like>
             </TopLine>
             <ImgContainer></ImgContainer>

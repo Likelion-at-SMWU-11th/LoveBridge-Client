@@ -83,6 +83,7 @@ const FileContainer = styled.div`
         text-indent: 5px;
         border: 1px solid #DFDFDF;
         border-radius: 8px;
+        padding-left: 30px;
     }
     .file-upload {
         display: none;
@@ -106,6 +107,23 @@ const FileContainer = styled.div`
 `
 
 function MyDocPage() {
+    const [family, setFamily] = useState('');
+    const [id, setId] = useState('');
+    const [regist, setRegist] = useState('');
+    const [gov, setGov] = useState('');
+
+    const handleChangeFamliy = (e) => {
+        setFamily(e.target.files[0]);
+    }
+    const handleChangeId = (e) => {
+        setId(e.target.files[0]);
+    }
+    const handleChangeRegist = (e) => {
+        setRegist(e.target.files[0]);
+    }
+    const handleChangeGov = (e) => {
+        setGov(e.target.files[0]);
+    }
 
   return (
     <Wrapper>
@@ -115,40 +133,40 @@ function MyDocPage() {
         <FileBox>
             <GreyZone><Txt>서류명</Txt><DocName>가족관계증명서</DocName></GreyZone>
                 <FileContainer>
-                    <input type="text" class="file-name" value="" disabled="disabled"></input>
+                    <input type="text" className="file-name" value={family.name} disabled="disabled"></input>
                     <div className='btn-box'>
-                    <label for="family-relation" class="file-label">파일 선택<img src={plusicon}/></label>
-                    <input type="file" name="" id="family-relation" class="file-upload" />
-                    <button class="preview-btn">미리보기</button></div>
+                    <label for="family-relation" className="file-label">파일 선택<img src={plusicon}/></label>
+                    <input type="file" name="" id="family-relation" class="file-upload" onChange={handleChangeFamliy} />
+                    <button className="preview-btn">미리보기</button></div>
                 </FileContainer>
         </FileBox>
         <FileBox>
             <GreyZone><Txt>서류명</Txt><DocName>주민등록등본</DocName></GreyZone>
                 <FileContainer>
-                    <input type="text" readonly="readonly" class="file-name"/>
+                    <input type="text" readonly="readonly" className="file-name" value={id.name} disabled="disabled"/>
                     <div className='btn-box'>
                     <label for="id-card" class="file-label">파일 선택<img src={plusicon}/></label>
-                    <input type="file" name="" id="id-card" class="file-upload" />
-                    <button class="preview-btn">미리보기</button></div>
+                    <input type="file" name="" id="id-card" className="file-upload" onChange={handleChangeId} />
+                    <button className="preview-btn">미리보기</button></div>
                 </FileContainer>
         </FileBox>
         <FileBox>
             <GreyZone><Txt>서류명</Txt><DocName>장애인등록증</DocName></GreyZone>
                 <FileContainer>
-                    <input type="text" readonly="readonly" class="file-name"/>
+                    <input type="text" readonly="readonly" className="file-name" value={regist.name} disabled="disabled"/>
                     <div className='btn-box'>
-                    <label for="disable-regist" class="file-label">파일 선택<img src={plusicon}/></label>
-                    <input type="file" name="" id="disable-regist" class="file-upload" />
-                    <button class="preview-btn">미리보기</button></div>
+                    <label for="disable-regist" className="file-label">파일 선택<img src={plusicon}/></label>
+                    <input type="file" name="" id="disable-regist" className="file-upload" onChange={handleChangeRegist}/>
+                    <button className="preview-btn">미리보기</button></div>
                 </FileContainer>
         </FileBox>
         <FileBox>
             <GreyZone><Txt>서류명</Txt><DocName>정부기관 심사결과지</DocName></GreyZone>
                 <FileContainer>
-                    <input type="text" readonly="readonly" class="file-name"/>
+                    <input type="text" readonly="readonly" class="file-name" value={gov.name} disabled="disabled"/>
                     <div className='btn-box'>
                     <label for="gov-result" class="file-label">파일 선택<img src={plusicon}/></label>
-                    <input type="file" name="" id="gov-result" class="file-upload" />
+                    <input type="file" name="" id="gov-result" class="file-upload" onChange={handleChangeGov} />
                     <button class="preview-btn">미리보기</button></div>
                 </FileContainer>
         </FileBox>

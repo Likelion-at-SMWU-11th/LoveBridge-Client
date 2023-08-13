@@ -1,11 +1,14 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components';
+import axios from 'axios';
+
 import PagePath from '../ui/PagePath';
 import Select from 'react-select';
 import Button from '../ui/Button';
 import ApplyCard from '../ui/ApplyCard';
 import Pagination from 'react-js-pagination';
 import '../style/Pagenation.css'
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
   padding: 45px 136px 0px 123px;
@@ -27,7 +30,7 @@ const Info = styled.div`
 `
 const SelectBox = styled.div`
   border: 0.973px solid rgba(0, 0, 0, 0.20);
-  height: 40vh;
+  height: 350px;
   padding: 30px 45px 30px 45px;
 `
 const PuppleTxt = styled.div`
@@ -56,7 +59,7 @@ const CategorySelect = styled(Select)`
   width: 15vw;
 `
 const SortSelect = styled(Select)`
-  width: 8vw;
+  width: 9vw;
 `
 const Txt = styled.div`
   color: #222;
@@ -102,6 +105,19 @@ const CardLine = styled.div`
   justify-content: space-between;
   margin-top: 30px;
 `
+// const customStyles = {
+//   control: (provided) => ({
+//     ...provided,
+//     '&:active': {
+//       ...provided[":active"],
+//       borderColor: "#AD88EB"},
+//   }),
+//   option: (provided, state) => ({
+//     ...provided,
+//     backgroundColor: state.isSelected? "#AD88EB" : "#fff",
+//     '&:hover': {backgroundColor: "#F4F2FB"},
+//   }),
+// };
 
 let regionOption = [
   { value: "서울특별시", label: "서울특별시" },
@@ -126,6 +142,9 @@ let sortOption = [
 ]
 
 function ApplyPage() {
+  const form = useRef();
+  const navigate = useNavigate();
+
   const [ total, setTotal ] = useState(0);
   const [ region, setRegion ] = useState('');
   const [ category, setCategory ] = useState('');
@@ -156,11 +175,24 @@ function ApplyPage() {
       }
   }; // 신청 시 alert
 
+  const handleSearch = () => {
+      axios.post('', {region: region, category: category, sort: sort})
+      .then(response => {
+        setRegion('');
+        setCategory('');
+        setSort('');
+      })
+      .catch(error => {
+        console.error('Error handle search: ', error);
+      });
+  };
+
   return (
     <Wrapper>
       <PagePath pathname1='신청목록'/>
       <Title>자립지원프로그램 검색</Title>
       <Info>한 눈에 보고 , 클릭 한번으로 서비스를 신청할 수 있습니다.</Info>
+      <form method='post' onSubmit={handleSearch} ref={form}>
       <SelectBox>
         <PuppleTxt>항목을 선택해주세요.</PuppleTxt>
         <SelectContainer>
@@ -170,6 +202,7 @@ function ApplyPage() {
                     onChange={ (e) => {if (e) {setRegion(e.value);} else {setRegion("");}}}
                     options={regionOption}
                     ref={RegionSelectRef}
+                    //styles={customStyles}
                     components={{
                         IndicatorSeparator: () => null
                     }}/>
@@ -197,11 +230,12 @@ function ApplyPage() {
           </SelectLine>
         </SelectContainer>
         <ButtonContainer>
-          <StyledButton><Button className="reset" title="초기화" onClick={() => handleReset()}/></StyledButton>
-          <Button className="search" title="검색" />
+          <StyledButton><Button className="reset" type="button" title="초기화" onClick={() => handleReset()}/></StyledButton>
+          <Button className="search" title="검색" type="submit" onClick={() => navigate('/apply')}/>
         </ButtonContainer>
         
       </SelectBox>
+      </form>
       <Total>총 &nbsp;<PuppleTxt className='pupple'>{total}</PuppleTxt> &nbsp;건의 복지서비스가 있습니다.</Total>
       <CardContainer>
         <CardLine><ApplyCard tag="자격증"
