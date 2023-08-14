@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -27,6 +28,12 @@ const Banner = () => {
     pauseOnDotsHover: true,
   };
 
+  const navigate = useNavigate();
+
+  const navToMyDoc = () => {
+    navigate("/my/doc");
+  };
+
   return (
     <Wrapper>
       <Slider {...settings}>
@@ -39,7 +46,7 @@ const Banner = () => {
               <br />
               이제는 기관 방문 없이도 등록된 서류를 통해 한 번의 클릭으로
             </Description>
-            <button>내 서류 등록하기 {">"}</button>
+            <button onClick={navToMyDoc}>내 서류 등록하기 {">"}</button>
           </Container>
         </Slide1>
         <Slide2>
