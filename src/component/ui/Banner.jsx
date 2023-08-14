@@ -80,7 +80,7 @@ export default Banner;
 const Wrapper = styled.div`
   max-width: 100%;
   .slick-dots {
-    bottom: 20px;
+    bottom: 30px;
   }
   .slick-slide {
     width: 100%;
@@ -246,7 +246,7 @@ const Slide3 = styled.div`
 const Contents = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 45px;
+  margin-top: 40px;
   z-index: 10;
   gap: 10px;
   justify-content: center;
@@ -274,7 +274,7 @@ const Headline = styled.div`
   font-weight: 400;
   line-height: normal;
   margin-left: 80px;
-  margin-top: 45px;
+  margin-top: 40px;
 `;
 
 const Icon = styled.img`
