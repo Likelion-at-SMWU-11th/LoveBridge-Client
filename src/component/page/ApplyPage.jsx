@@ -428,6 +428,7 @@ const fetchApplyCards = () => {
             agency="서초 사랑의 복지관"
             deadline="2023.08.12"
             tel="02-1111-2222"
+            applicants="5명/5명"
             like="26"
             iflike={true}
             onClickApply={(e) => confirmApply(e)}
