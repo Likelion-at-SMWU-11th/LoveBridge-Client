@@ -422,7 +422,8 @@ const fetchApplyCards = () => {
         </div>
         <CardLine>
           <ApplyCard
-            tag="자격증"
+            tag1="자격증"
+            tag2="취미"
             title="바리스타 자격증"
             district="서울특별시 강남구"
             agency="서초 사랑의 복지관"
