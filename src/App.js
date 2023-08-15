@@ -12,7 +12,7 @@ import MyLikePage from './component/page/MyPage/MyLikePage';
 import { createGlobalStyle } from "styled-components";
 
 const Page = styled.div`
-  margin-top: 113px;
+  margin-top: 80px;
 `;
 
 function App() {
