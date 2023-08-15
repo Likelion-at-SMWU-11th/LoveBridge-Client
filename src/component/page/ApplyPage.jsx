@@ -194,8 +194,8 @@ function ApplyPage() {
 
   return (
     <Wrapper>
-      <PagePath pathname1="신청목록" />
-      <Title>자립지원프로그램 검색</Title>
+      <PagePath pathname1="프로그램 신청" />
+      <Title>지원프로그램 검색</Title>
       <Info>한 눈에 보고 , 클릭 한번으로 서비스를 신청할 수 있습니다.</Info>
       <form method="post" onSubmit={handleSearch} ref={form}>
         <SelectBox>

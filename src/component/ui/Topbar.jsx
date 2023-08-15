@@ -97,7 +97,7 @@ const Topbar = () => {
         </LogoImg>
         <NavContainer>
           <Navi onClick={() => navigate("/apply")}>
-            신청 목록
+            프로그램 신청
             {location.pathname !== "/login" &&
               location.pathname !== "/" &&
               location.pathname === "/apply" && (
