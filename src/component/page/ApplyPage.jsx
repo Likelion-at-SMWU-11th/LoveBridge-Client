@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -248,24 +248,59 @@ function ApplyPage() {
   }; // 신청 시 alert
 
   const handleSearch = () => {
-    axios
-      .post("", { region: region, category: category, sort: sort })
-      .then((response) => {
-        setRegion("");
-        setCategory("");
-        setSort("");
-      })
-      .catch((error) => {
-        console.error("Error handle search: ", error);
-      });
-  };
+    axios.post(`http://127.0.0.1:8000/programs/search/`, {
+      district: region+' '+region2, 
+      category: category, 
+      sort: sort})
+    .then(response => {
+      console.log(response);
+      setRegion('');
+      setRegion2('');
+      setCategory('');
+      setSort('');
+    })
+    .catch(error => {
+      console.error('Error handle search: ', error);
+    });
+    navigate('/apply');
+};
+
+const [applyCards, setApplyCards] = useState([]);
+
+useEffect(() => {
+  fetchApplyCards();
+}, []);
+
+const fetchApplyCards = () => {
+  axios.get('http://127.0.0.1:8000/programs/search/')
+  .then(response => {
+    setApplyCards(response.data);
+    const initialApplyCards = {};
+    response.data.forEach(card => {
+      initialApplyCards[card.id] = { 
+        title: card.title,
+        district: card.district,
+        agency: card.agency,
+        deadline: '20'+card.deadline_yy+card.deadline_mm+card.deadline_dd,
+        phone: card.phone,
+        like: card.like,
+        category: card.category,
+        iflike: card.iflike,
+        // userid: card.userid, 
+      }
+    });
+    setApplyCards(initialApplyCards);
+  })
+  .catch(error => {
+    console.error('Error fetching cards: ', error);
+  });
+};
 
   return (
     <Wrapper>
       <PagePath pathname1="프로그램 신청" />
       <Title>지원프로그램 검색</Title>
       <Info>한 눈에 보고 , 클릭 한번으로 서비스를 신청할 수 있습니다.</Info>
-      <form method="post" onSubmit={handleSearch} ref={form}>
         <SelectBox>
           <PuppleTxt>항목을 선택해주세요.</PuppleTxt>
           <SelectContainer>
@@ -357,17 +392,34 @@ function ApplyPage() {
             <Button
               className="search"
               title="검색"
-              type="submit"
-              onClick={() => navigate("/apply")}
+              type="submit" 
+              onClick={handleSearch}
             />
           </ButtonContainer>
         </SelectBox>
-      </form>
+
+
       <Total>
         총 &nbsp;<PuppleTxt className="pupple">{total}</PuppleTxt> &nbsp;건의
         복지서비스가 있습니다.
       </Total>
       <CardContainer>
+      <div className='card-list'>
+          {applyCards.programs && applyCards.programs.map(card => (
+            <div key={card.id} className='card-div'>
+              <ApplyCard
+                title={applyCards.programs[card.id]?.title}
+                agency={applyCards.programs[card.id]?.agency}
+                deadline={applyCards.programs[card.id]?.deadline}
+                phone={applyCards.programs[card.id]?.phone}
+                like={applyCards.programs[card.id]?.phone}
+                iflike={applyCards.programs[card.id]?.iflike}
+                tag={applyCards.programs[card.id]?.category}
+                onClickApply={(e) => confirmApply(e)}
+              />
+            </div>
+          ))}
+        </div>
         <CardLine>
           <ApplyCard
             tag="자격증"
