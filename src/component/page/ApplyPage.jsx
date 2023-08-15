@@ -193,6 +193,27 @@ function ApplyPage() {
 
   const [ region2Option, setRegion2Option ] = useState([]);
 
+  const handleRegion2Option = (e) => {
+    if (e.value === "서울특별시") {
+        setRegion2Option(seoulOption);
+    }
+    else if (e.value === "부산광역시") {
+        setRegion2Option(busanOption);
+    }
+    else if (e.value === "대구광역시") {
+      setRegion2Option(daeguOption);
+    }
+    else if (e.value === "대전광역시") {
+      setRegion2Option(daejeonOption);
+    }
+    else if (e.value === "인천광역시") {
+      setRegion2Option(incheonOption);
+    }
+    else {
+      setRegion2Option(noOption);
+    }
+  } // 시 선택에 따른 구 옵션 설정
+
   const handlePageChange = (page) => {
     setPage(page);
   }; // pagenation에서 page 설정
@@ -205,10 +226,12 @@ function ApplyPage() {
   const handleReset = () => {
     if (
       RegionSelectRef.current ||
+      Region2SelectRef.current ||
       CategorySelectRef.current ||
       SortSelectRef.current
     ) {
       RegionSelectRef.current.clearValue();
+      Region2SelectRef.current.clearValue();
       CategorySelectRef.current.clearValue();
       SortSelectRef.current.clearValue();
     }
@@ -257,6 +280,7 @@ function ApplyPage() {
                   } else {
                     setRegion("선택없음");
                   }
+                  handleRegion2Option(e)
                 }}
                 options={regionOption}
                 ref={RegionSelectRef}
