@@ -237,12 +237,14 @@ function ApplyPage() {
     }
   }; // 초기화 기능
 
-  const confirmApply = () => {
-    if (window.confirm("정말 신청하시겠습니까?")) {
-      alert("신청이 완료되었습니다");
+  const confirmApply = (e) => {
+    var programName = e.target.parentElement.parentElement.children[2].textContent;
+    if (window.confirm(`[${programName}] 정말 신청하시겠습니까?`)) {
+      alert(`[${programName}] 신청이 완료되었습니다`);
     } else {
       alert("취소합니다.");
     }
+    
   }; // 신청 시 alert
 
   const handleSearch = () => {
@@ -369,7 +371,6 @@ function ApplyPage() {
         <CardLine>
           <ApplyCard
             tag="자격증"
-            onClickApply={confirmApply}
             title="바리스타 자격증"
             district="서울특별시 강남구"
             agency="서초 사랑의 복지관"
@@ -377,6 +378,7 @@ function ApplyPage() {
             tel="02-1111-2222"
             like="26"
             iflike={true}
+            onClickApply={(e) => confirmApply(e)}
           />
           <ApplyCard />
         </CardLine>
