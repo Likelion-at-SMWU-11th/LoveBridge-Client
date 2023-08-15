@@ -58,6 +58,10 @@ const RegionSelect = styled(Select)`
 `;
 const CategorySelect = styled(Select)`
   width: 15vw;
+
+  .select-placeholder-text {
+    color: #4f4f4f;
+  }
 `;
 const SortSelect = styled(Select)`
   width: 9vw;
@@ -120,26 +124,61 @@ const CardLine = styled.div`
 // };
 
 let regionOption = [
+  { value: "선택 없음", label: "선택 없음" },
   { value: "서울특별시", label: "서울특별시" },
   { value: "부산광역시", label: "부산광역시" },
   { value: "인천광역시", label: "인천광역시" },
   { value: "대전광역시", label: "대전광역시" },
   { value: "대구광역시", label: "대구광역시" },
-];
+  { value: "광주광역시", label: "광주광역시" },
+  { value: "울산광역시", label: "울산광역시" },
+]
+let seoulOption = [
+  { value: "강남구", label: "강남구" },
+  { value: "광진구", label: "광진구" },
+  { value: "노원구", label: "노원구" },
+  { value: "도봉구", label: "도봉구" },
+  { value: "종로구", label: "종로구" },
+  { value: "중랑구", label: "중랑구" },
+  { value: "서초구", label: "서초구" },
+  { value: "영등포구", label: "영등포구" },
+  { value: "용산구", label: "용산구" },
+  { value: "은평구", label: "은평구" },
+]
+let busanOption = [
+  { value: "해운대구", label: "해운대구" },
+  { value: "북구", label: "북구" },
+]
+let daeguOption = [
+  { value: "달서구", label: "달서구" },
+  { value: "북구", label: "북구" },
+]
+let daejeonOption = [
+  { value: "동구", label: "동구" },
+  { value: "북구", label: "북구" },
+]
+let incheonOption = [
+  { value: "부평구", label: "부평구" },
+  { value: "미추홀구", label: "미추홀구" },
+]
+let noOption = [
+  { value: "지역 없음", label: "지역 없음" },
+]
 
 let categoryOption = [
+  { value: "선택 없음", label: "선택 없음" },
   { value: "자격증", label: "자격증" },
   { value: "취미", label: "취미" },
   { value: "체험", label: "체험" },
   { value: "운동", label: "운동" },
   { value: "음악", label: "음악" },
-];
+]
 
 let sortOption = [
   { value: "최신순", label: "최신순" },
   { value: "인기순", label: "인기순" },
   { value: "마감임박순", label: "마감임박순" },
-];
+]
 
 function ApplyPage() {
   const form = useRef();
@@ -147,15 +186,19 @@ function ApplyPage() {
 
   const [total, setTotal] = useState(0);
   const [region, setRegion] = useState("");
+  const [ region2, setRegion2 ] = useState("");
   const [category, setCategory] = useState("");
   const [sort, setSort] = useState("");
   const [page, setPage] = useState(1);
+
+  const [ region2Option, setRegion2Option ] = useState([]);
 
   const handlePageChange = (page) => {
     setPage(page);
   }; // pagenation에서 page 설정
 
   const RegionSelectRef = useRef(null);
+  const Region2SelectRef = useRef(null);
   const CategorySelectRef = useRef(null);
   const SortSelectRef = useRef(null);
 
@@ -206,13 +249,13 @@ function ApplyPage() {
               <RegionSelect
                 className="react-select-container"
                 placeholder={
-                  <div className="select-placeholder-text">선택</div>
+                  <div className="select-placeholder-text">시 선택</div>
                 }
                 onChange={(e) => {
                   if (e) {
                     setRegion(e.value);
                   } else {
-                    setRegion("");
+                    setRegion("선택없음");
                   }
                 }}
                 options={regionOption}
@@ -222,12 +265,26 @@ function ApplyPage() {
                   IndicatorSeparator: () => null,
                 }}
               />
+              <RegionSelect className="react-select-container"
+                    placeholder={<div className="select-placeholder-text">구 선택</div>}
+                    onChange={ (e) => {
+                      if (e) {
+                        setRegion2(e.value);
+                      } else {
+                        setRegion2("선택없음");
+                      }
+                    }}
+                    options={region2Option}
+                    ref={Region2SelectRef}
+                    //styles={customStyles}
+                    components={{
+                        IndicatorSeparator: () => null
+                    }}/>
             </SelectLine>
             <SelectLine>
               <Txt>카테고리</Txt>
-              <CategorySelect
-                className="react-select-container"
-                placeholder=""
+              <CategorySelect className="react-select-container"
+                placeholder={<div className="select-placeholder-text">선택없음</div>}
                 onChange={(e) => {
                   if (e) {
                     setCategory(e.value);
