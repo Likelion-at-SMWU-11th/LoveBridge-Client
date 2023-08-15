@@ -163,7 +163,7 @@ function MyDocPage() {
             .catch(error => {
                 console.error('Error handle search: ', error);
             });
-            navigate('/my/doc');
+            navigate('/my/doc/save');
         }
     } // 보내기
 
