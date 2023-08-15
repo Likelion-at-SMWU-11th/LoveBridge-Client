@@ -47,7 +47,7 @@ function MyApplyPage() {
             <img src={step3}/><Txt>심사 완료</Txt>
         </Step>
       </StepLine>
-      <Line/>
+      <Line style={{marginBottom: "50px"}}/>
       <Applied />
     </Wrapper>
   )
