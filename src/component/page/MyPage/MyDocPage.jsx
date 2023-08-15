@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PagePath from '../../ui/PagePath';
 import fileicon from '../../img/file.svg';
 import plusicon from '../../img/plus.svg';
+import Button from '../../ui/Button';
 
 const Wrapper = styled.div`
     padding: 45px 136px 0px 123px;
@@ -102,6 +103,18 @@ const FileContainer = styled.div`
         cursor: pointer;
     }
 `
+const ButtonContainer = styled.div`
+    text-align: center;
+    margin: 100px 0px 100px 0px;
+    > Button {
+        width: 100px;
+        background: #4E4E4E;
+
+        &:hover {
+            background: #AD88EB;
+        }
+    }
+`
 
 function MyDocPage() {
     const [family, setFamily] = useState('');
@@ -120,6 +133,10 @@ function MyDocPage() {
     }
     const handleChangeGov = (e) => {
         setGov(e.target.files[0]);
+    }
+
+    const handleSubmit = () => {
+        
     }
 
   return (
@@ -159,6 +176,7 @@ function MyDocPage() {
                     <input type="file" name="" id="gov-result" class="file-upload" onChange={handleChangeGov} />
                 </FileContainer>
         </FileBox>
+        <ButtonContainer><Button title="저장" onClick={handleSubmit}/></ButtonContainer>
     </Wrapper>
   )
 }
