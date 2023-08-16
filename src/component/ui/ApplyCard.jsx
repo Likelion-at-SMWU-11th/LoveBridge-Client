@@ -8,9 +8,9 @@ const Card = styled.div`
     border-radius: 30px;
     border: 1px solid #DFDFDF;
     background: #FFF;
-    width: 34vw;
-    height: 77vh;
-    padding: 3vh 3vw 7vh 3vw;
+    width: 550px;
+    padding: 30px 50px 40px 50px;
+    margin-bottom: 50px;
 `
 const TopLine = styled.div`
     display: flex;
@@ -34,33 +34,33 @@ const LikeNum = styled.div`
     font-style: normal;
     font-weight: 700;
     letter-spacing: -0.8px;
-    margin: 1vh 1vw;
+    margin: 10px 10px;
 `
 const LikeBtn = styled.button`
     background: #fff;
     border: 0px;
     cursor: pointer;
 `
-const ImgContainer = styled.div`
-    height: 40vh;
+const ImgContainer = styled.img`
+    width: 550px;
     border-radius: 10px;
     background: #d9d9d9;
-    margin-top: 2vh;
-    margin-bottom: 3vh;
+    margin-top: 20px;
+    margin-bottom: 20px;
 `
 const Title = styled.div`
     color: #222;
     font-size: 1.5em;
     font-weight: 700;
     letter-spacing: -1.2px;
-    margin-bottom: 0.6vh;
+    margin-bottom: 8px;
 `
 const District = styled.div`
     color: #4F4F4F;
     font-size: 1.05em;
     font-weight: 350;
     letter-spacing: -0.8px;
-    margin-bottom: 1.5vh;
+    margin-bottom: 18px;
 `
 const AgencyLine = styled.div`
     display: flex;
@@ -68,10 +68,10 @@ const AgencyLine = styled.div`
     font-size: 1em;
     font-weight: 500;
     letter-spacing: -0.8px;
-    margin: 1vh 0px 1vh 0px;
+    margin: 9px 0px 9px 0px;
 `
 const Agency = styled.div`
-    margin-left: 1.5vw;
+    margin-left: 20px;
     color: #666;
     font-size: 1em;
     font-style: normal;
@@ -95,7 +95,7 @@ const TagContainer = styled.div`
 `
 
 function ApplyCard(props) {
-    const { tag1, tag2, image, title, district, agency, deadline, tel, applicants, like, iflike, onClickApply } = props;
+    const { id, tag1, tag2, image, title, district, agency, deadline, tel, applicants, like, iflike, onClickApply } = props;
     const [islike, setIslike ] = useState(iflike); // 초기값을 iflike로
 
     function handleLike() {
@@ -111,7 +111,7 @@ function ApplyCard(props) {
                     {islike? <LikeBtn onClick={handleLike}><img src={likebtnactive}/></LikeBtn> : <LikeBtn onClick={handleLike} style={{marginRight:"2px", marginLeft:"3px"}}><img src={likebtn}/></LikeBtn>}
                 </Like>
             </TopLine>
-            <ImgContainer></ImgContainer>
+            <ImgContainer src={image}></ImgContainer>
             <Title>{ title || "서비스이름" }</Title>
             <District>{district || "OO시 OO구 "}</District>
             <AgencyLine>• 담당기관 <Agency>{agency || "담당기관이름"}</Agency></AgencyLine>
