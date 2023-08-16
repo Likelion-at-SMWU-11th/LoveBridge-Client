@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import PagePath from "../ui/PagePath";
 import Select from "react-select";
@@ -8,7 +9,7 @@ import Button from "../ui/Button";
 import ApplyCard from "../ui/ApplyCard";
 import Pagination from "react-js-pagination";
 import "../style/Pagenation.css";
-import { useNavigate } from "react-router-dom";
+import Dummy from "../../dummy.json";
 
 const Wrapper = styled.div`
   padding: 45px 136px 0px 123px;
@@ -103,7 +104,11 @@ const Total = styled.div`
     font-weight: 350;
   }
 `;
-const CardContainer = styled.div``;
+const CardContainer = styled.div`
+  display: grid;
+  grid-template-columns: 44vw 34vw;
+
+`;
 const CardLine = styled.div`
   display: flex;
   justify-content: space-between;
@@ -189,7 +194,6 @@ function ApplyPage() {
   const [ region2, setRegion2 ] = useState("");
   const [category, setCategory] = useState("");
   const [sort, setSort] = useState("");
-  const [page, setPage] = useState(1);
 
   const [ region2Option, setRegion2Option ] = useState([]);
 
@@ -214,9 +218,13 @@ function ApplyPage() {
     }
   } // 시 선택에 따른 구 옵션 설정
 
+  const [page, setPage] = useState(1);
+  
   const handlePageChange = (page) => {
     setPage(page);
   }; // pagenation에서 page 설정
+
+
 
   const RegionSelectRef = useRef(null);
   const Region2SelectRef = useRef(null);
@@ -401,7 +409,7 @@ const fetchApplyCards = () => {
         복지서비스가 있습니다.
       </Total>
       <CardContainer>
-      <div className='card-list'>
+      {/* <div className='card-list'>
           {applyCards.programs && applyCards.programs.map(card => (
             <div key={card.id} className='card-div'>
               <ApplyCard
@@ -416,27 +424,21 @@ const fetchApplyCards = () => {
               />
             </div>
           ))}
-        </div>
-        <CardLine>
-          <ApplyCard
-            tag1="자격증"
-            tag2="취미"
-            title="바리스타 자격증"
-            district="서울특별시 강남구"
-            agency="서초 사랑의 복지관"
-            deadline="2023.08.12"
-            tel="02-1111-2222"
-            applicants="5명/5명"
-            like="26"
-            iflike={true}
-            onClickApply={(e) => confirmApply(e)}
+        </div> */}
+        {Dummy.programs.map((card) => (
+          <ApplyCard key={card.id}
+          image = {card.img}
+          title={card.title}
+          agency={card.agency}
+          deadline={'20'+card.deadline}
+          phone={card.tel}
+          like={card.like}
+          iflike={card.iflike}
+          tag1={card.tag1}
+          tag2={card.tag2}
+          onClickApply={(e) => confirmApply(e)}
           />
-          <ApplyCard />
-        </CardLine>
-        <CardLine>
-          <ApplyCard />
-          <ApplyCard />
-        </CardLine>
+        ))}
       </CardContainer>
       <Pagination
         activePage={page}

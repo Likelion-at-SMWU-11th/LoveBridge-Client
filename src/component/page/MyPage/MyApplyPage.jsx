@@ -6,6 +6,7 @@ import step1 from '../../img/step1.svg';
 import step2 from '../../img/step2.svg';
 import step3 from '../../img/step3.svg';
 import arrow from '../../img/myapply_arrow.svg';
+import Dummy from '../../../dummy.json';
 
 const Wrapper = styled.div`
   padding: 45px 136px 0px 123px;
@@ -32,6 +33,16 @@ const Line = styled.hr`
 
 
 function MyApplyPage() {
+
+  const cancelApply = (e) => {
+    var programName = e.target.parentElement.parentElement.children[0].children[0].textContent;
+    if (window.confirm(`[${programName}] 정말 취소하시겠습니까?`)) {
+      alert(`[${programName}] 취소가 완료되었습니다`);
+    } else {
+      alert("아직 신청 상태입니다.");
+    }
+  };
+
   return (
     <Wrapper>
       <PagePath pathname1="마이페이지" pathname2="내가 신청한 프로그램"/>
@@ -48,7 +59,14 @@ function MyApplyPage() {
         </Step>
       </StepLine>
       <Line style={{marginBottom: "50px"}}/>
-      <Applied />
+      <div>
+      {Dummy.programs.map((applied) => (
+        <Applied key={applied.id}
+          title={applied.title}
+          district={applied.district}
+          onClick={e => cancelApply(e)}/>
+      ))}
+      </div>
     </Wrapper>
   )
 }
