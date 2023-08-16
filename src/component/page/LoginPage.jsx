@@ -2,19 +2,22 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
-import KakaoBtn from '../img/kakao-login.svg';
-import NaverBtn from '../img/naver-login.svg';
+import kako from '../img/kakao-logo.svg';
+import google from '../img/google-logo.svg';
+import naver from '../img/naver-logo.svg';
+import logo from '../img/logo.svg';
 
 const Wrapper = styled.div`
-    margin-top: 30vh;
+padding: 100px 136px 0px 123px;
 `
 const LoginContainer = styled.div`
-    width: 25%;
     margin: auto;
 `
 const TitleTxt = styled.div`
-    text-align: center;
-    font-size: 2.5em;
+    font-size: 2.3em;
+    color: #454545;
+    font-weight: 700;
+    margin-left: 10px
 `
 const Line = styled.hr`
     border: 0;
@@ -24,46 +27,57 @@ const Line = styled.hr`
     border-radius: 50px;
     margin-bottom: 3vh;
 `
-const LoginBtnContainer = styled.div`
-    margin-top: 3vh;
-    >Button{
-        width: 100%;
-        justify-content: center;
+const BtnContainer = styled.div`
+display: flex;
+justify-content: space-between;
+
+`
+const KaKaO = styled.div`
+    display: flex;
+    align-items: center;
+    >button {
+        background: #FFDE00;
+        width: 400px;
+        color: #000000;
+        margin-bottom: 20px;
     }
 `
-const SNSContainer = styled.div`
-    margin-top: 4vh;
-`
-const Txt = styled.div`
-    font-size: 1em;
-    font-style: normal;
-    font-weight: 400;
-    text-align: center;
-`
-const SNSBtnContainer = styled.div`
+const Google = styled.div`
     display: flex;
-    justify-content: center;
-    margin-top: 2vh;
-    margin-bottom: 2vh;
+    align-items: center;
+    >button {
+        background: #000;
+        width: 400px;
+        color: #fff;
+        margin-bottom: 20px;
+    }
 `
-const SNSButton = styled.button`
-    text-align: center;
-    margin: 0px 5px 0px 5px;
-    background: #fff;
+const Naver = styled.div`
+    display: flex;
+    align-items: center;
+    >button {
+        background: #2DB400;
+        width: 400px;
+        color: #fff;
+        margin-bottom: 20px;
+    }
+`
+const StyledButton = styled.button`
+    font-size: 1.3em;
+    font-weight: 700;
     border: 0px;
     cursor: pointer;
-`
-const SignupBtnContainer = styled.div`
-    margin-top: 4vh;
-    >Button{
-        width: 100%;
-        background: #fff;
-        border: 1px solid #5D5D5D;
-        color: #1D1D1D;
-        border-radius: 28px;
-        font-weight: 600;
-        font-size: 0.8em;
+    border-radius: 30px;
+    background: #AD88EB;
+    padding: 15px;
+    color: #fff;
+    height: 100px;
+    > img {
+        margin-right: 15px;
+        padding-top: 1px;
     }
+`
+const LoginInfo = styled.div`
 `
 
 function LoginPage() {
@@ -81,27 +95,15 @@ function LoginPage() {
     };
   return (
     <Wrapper>
-        <form>
+        <LoginInfo><img src={logo}/><TitleTxt>간편 소셜 로그인</TitleTxt></LoginInfo>
             <LoginContainer>
-                <TitleTxt>로그인</TitleTxt>
                 <Line/>
-                <Input 
-                    type="text" name="id" value={username} onChange={onChangeUsername} placeholder="아이디 (이메일)"/>
-                <Input 
-                    type="password" name="password" value={password} onChange={onChangePassword} placeholder="비밀번호"/>
-                <LoginBtnContainer><Button title="로그인하기"/></LoginBtnContainer>
-                <SNSContainer>
-                    <Txt>SNS 계정으로 로그인하기</Txt>
-                    <SNSBtnContainer>
-                        <SNSButton><img src={KakaoBtn} alt="카카오" /></SNSButton>
-                        <SNSButton><img src={NaverBtn} alt="카카오" /></SNSButton>
-                    </SNSBtnContainer>
-                </SNSContainer>
-                <SignupBtnContainer>
-                    <Button title="간편 회원가입하기"/>
-                </SignupBtnContainer>
+                <BtnContainer>
+                    <KaKaO><StyledButton><img src={kako}/>카카오 로그인</StyledButton></KaKaO>
+                    <Google><StyledButton><img src={google}/>구글 로그인</StyledButton></Google>
+                    <Naver><StyledButton><img src={naver}/>네이버 로그인</StyledButton></Naver>
+                </BtnContainer>
             </LoginContainer>
-        </form>
     </Wrapper>
   )
 }

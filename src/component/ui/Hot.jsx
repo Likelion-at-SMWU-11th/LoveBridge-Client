@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -6,10 +6,46 @@ import "slick-carousel/slick/slick-theme.css";
 import Dummy from "../../dummy.json";
 import PrevArrow from "../img/prev.svg";
 import NextArrow from "../img/next.svg";
+import axios from "axios";
 
 const Hot = () => {
   const prevArrow = useCallback(() => slickRef.current.slickPrev(), []);
   const nextArrow = useCallback(() => slickRef.current.slickNext(), []);
+  const [ hotCard, setHotCard ] = useState([]);
+
+  useEffect(() => {
+    fetchHotCards();
+  }, []);
+
+  const fetchHotCards = () => { 
+    axios.get('http://127.0.0.1:8000/programs/popular/')
+    .then(response => {
+      setHotCard(response.data);
+      console.log(response.data);
+      for ( var i = 0; i < response.data.length; i++) {
+        console.log(response.data[i]);
+        hotCard[i] = { 
+              id: response.data[i].id,
+              title: response.data[i].title,
+              district: response.data[i].district,
+              image: response.data[i].image,
+              // userid: card.userid, 
+            };
+      }; 
+    // response.data.forEach(program => {
+    //   hotCard[program.id] = { 
+    //     title: program.title,
+    //     district: program.district,
+    //     image: program.image,
+    //     // userid: card.userid, 
+    //   };
+    // });
+    console.log(hotCard);
+  })
+  .catch(error => {
+    console.error('Error fetching cards: ', error);
+  });
+};
 
   const settings = {
     dots: false,
@@ -41,13 +77,20 @@ const Hot = () => {
       </Header>
       <Wrap>
         <Slider ref={slickRef} {...settings}>
-          {Dummy.hot.map((hot) => (
+        {hotCard.map(hot => (
+            <Item key={hot.id}>
+              <Img src={hot.image}></Img>
+              <Title>{hot.title}</Title>
+              <Address>{hot.district}</Address>
+            </Item>
+          ))}
+          {/* {Dummy.hot.map((hot) => (
             <Item key={hot.id}>
               <Img src={hot.img}></Img>
               <Title>{hot.title}</Title>
               <Address>{hot.address}</Address>
             </Item>
-          ))}
+          ))} */}
         </Slider>
       </Wrap>
     </div>
