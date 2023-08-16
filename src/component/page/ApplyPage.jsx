@@ -1,6 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import PagePath from "../ui/PagePath";
 import Select from "react-select";
@@ -8,7 +9,7 @@ import Button from "../ui/Button";
 import ApplyCard from "../ui/ApplyCard";
 import Pagination from "react-js-pagination";
 import "../style/Pagenation.css";
-import { useNavigate } from "react-router-dom";
+import Dummy from "../../dummy.json";
 
 const Wrapper = styled.div`
   padding: 45px 136px 0px 123px;
@@ -58,6 +59,10 @@ const RegionSelect = styled(Select)`
 `;
 const CategorySelect = styled(Select)`
   width: 15vw;
+
+  .select-placeholder-text {
+    color: #4f4f4f;
+  }
 `;
 const SortSelect = styled(Select)`
   width: 9vw;
@@ -99,7 +104,11 @@ const Total = styled.div`
     font-weight: 350;
   }
 `;
-const CardContainer = styled.div``;
+const CardContainer = styled.div`
+  display: grid;
+  grid-template-columns: 44vw 34vw;
+
+`;
 const CardLine = styled.div`
   display: flex;
   justify-content: space-between;
@@ -120,26 +129,61 @@ const CardLine = styled.div`
 // };
 
 let regionOption = [
+  { value: "선택 없음", label: "선택 없음" },
   { value: "서울특별시", label: "서울특별시" },
   { value: "부산광역시", label: "부산광역시" },
   { value: "인천광역시", label: "인천광역시" },
   { value: "대전광역시", label: "대전광역시" },
   { value: "대구광역시", label: "대구광역시" },
-];
+  { value: "광주광역시", label: "광주광역시" },
+  { value: "울산광역시", label: "울산광역시" },
+]
+let seoulOption = [
+  { value: "강남구", label: "강남구" },
+  { value: "광진구", label: "광진구" },
+  { value: "노원구", label: "노원구" },
+  { value: "도봉구", label: "도봉구" },
+  { value: "종로구", label: "종로구" },
+  { value: "중랑구", label: "중랑구" },
+  { value: "서초구", label: "서초구" },
+  { value: "영등포구", label: "영등포구" },
+  { value: "용산구", label: "용산구" },
+  { value: "은평구", label: "은평구" },
+]
+let busanOption = [
+  { value: "해운대구", label: "해운대구" },
+  { value: "북구", label: "북구" },
+]
+let daeguOption = [
+  { value: "달서구", label: "달서구" },
+  { value: "북구", label: "북구" },
+]
+let daejeonOption = [
+  { value: "동구", label: "동구" },
+  { value: "북구", label: "북구" },
+]
+let incheonOption = [
+  { value: "부평구", label: "부평구" },
+  { value: "미추홀구", label: "미추홀구" },
+]
+let noOption = [
+  { value: "지역 없음", label: "지역 없음" },
+]
 
 let categoryOption = [
+  { value: "선택 없음", label: "선택 없음" },
   { value: "자격증", label: "자격증" },
   { value: "취미", label: "취미" },
   { value: "체험", label: "체험" },
   { value: "운동", label: "운동" },
   { value: "음악", label: "음악" },
-];
+]
 
 let sortOption = [
   { value: "최신순", label: "최신순" },
   { value: "인기순", label: "인기순" },
   { value: "마감임박순", label: "마감임박순" },
-];
+]
 
 function ApplyPage() {
   const form = useRef();
@@ -147,57 +191,121 @@ function ApplyPage() {
 
   const [total, setTotal] = useState(0);
   const [region, setRegion] = useState("");
+  const [ region2, setRegion2 ] = useState("");
   const [category, setCategory] = useState("");
   const [sort, setSort] = useState("");
-  const [page, setPage] = useState(1);
 
+  const [ region2Option, setRegion2Option ] = useState([]);
+
+  const handleRegion2Option = (e) => {
+    if (e.value === "서울특별시") {
+        setRegion2Option(seoulOption);
+    }
+    else if (e.value === "부산광역시") {
+        setRegion2Option(busanOption);
+    }
+    else if (e.value === "대구광역시") {
+      setRegion2Option(daeguOption);
+    }
+    else if (e.value === "대전광역시") {
+      setRegion2Option(daejeonOption);
+    }
+    else if (e.value === "인천광역시") {
+      setRegion2Option(incheonOption);
+    }
+    else {
+      setRegion2Option(noOption);
+    }
+  } // 시 선택에 따른 구 옵션 설정
+
+  const [page, setPage] = useState(1);
+  
   const handlePageChange = (page) => {
     setPage(page);
   }; // pagenation에서 page 설정
 
+
+
   const RegionSelectRef = useRef(null);
+  const Region2SelectRef = useRef(null);
   const CategorySelectRef = useRef(null);
   const SortSelectRef = useRef(null);
 
   const handleReset = () => {
     if (
-      RegionSelectRef.current ||
-      CategorySelectRef.current ||
-      SortSelectRef.current
+      RegionSelectRef.current || Region2SelectRef.current || CategorySelectRef.current || SortSelectRef.current
     ) {
-      RegionSelectRef.current.clearValue();
-      CategorySelectRef.current.clearValue();
-      SortSelectRef.current.clearValue();
-    }
+      RegionSelectRef.current.setValue("선택 없음");
+      Region2SelectRef.current.setValue("선택 없음");
+      CategorySelectRef.current.setValue("선택 없음");
+      SortSelectRef.current.setValue("");
+    } //console.log('초기화');
   }; // 초기화 기능
 
-  const confirmApply = () => {
-    if (window.confirm("정말 신청하시겠습니까?")) {
-      alert("신청이 완료되었습니다");
+  const confirmApply = (e) => {
+    var programName = e.target.parentElement.parentElement.children[2].textContent;
+    if (window.confirm(`[${programName}] 정말 신청하시겠습니까?`)) {
+      alert(`[${programName}] 신청이 완료되었습니다`);
     } else {
       alert("취소합니다.");
     }
+    
   }; // 신청 시 alert
 
   const handleSearch = () => {
-    axios
-      .post("", { region: region, category: category, sort: sort })
-      .then((response) => {
-        setRegion("");
-        setCategory("");
-        setSort("");
-      })
-      .catch((error) => {
-        console.error("Error handle search: ", error);
-      });
-  };
+    axios.post(`http://127.0.0.1:8000/programs/search/`, {
+      district: region+' '+region2, 
+      category: category, 
+      sort: sort})
+    .then(response => {
+      console.log(response);
+      setRegion('');
+      setRegion2('');
+      setCategory('');
+      setSort('');
+    })
+    .catch(error => {
+      console.error('Error handle search: ', error);
+    });
+    navigate('/apply');
+};
+
+const [applyCards, setApplyCards] = useState([]);
+
+useEffect(() => {
+  fetchApplyCards();
+}, []);
+
+const fetchApplyCards = () => {
+  axios.get('http://127.0.0.1:8000/programs/search/')
+  .then(response => {
+    setApplyCards(response.data);
+    const initialApplyCards = {};
+    response.data.forEach(card => {
+      initialApplyCards[card.id] = { 
+        title: card.title,
+        district: card.district,
+        agency: card.agency,
+        deadline: '20'+card.deadline_yy+card.deadline_mm+card.deadline_dd,
+        phone: card.phone,
+        like: card.like,
+        category: card.category,
+        iflike: card.iflike,
+        // userid: card.userid, 
+      }
+    });
+    setApplyCards(initialApplyCards);
+  })
+  .catch(error => {
+    console.error('Error fetching cards: ', error);
+  });
+};
 
   return (
     <Wrapper>
-      <PagePath pathname1="신청목록" />
-      <Title>자립지원프로그램 검색</Title>
+      <PagePath pathname1="프로그램 신청" />
+      <Title>지원프로그램 검색</Title>
       <Info>한 눈에 보고 , 클릭 한번으로 서비스를 신청할 수 있습니다.</Info>
-      <form method="post" onSubmit={handleSearch} ref={form}>
         <SelectBox>
           <PuppleTxt>항목을 선택해주세요.</PuppleTxt>
           <SelectContainer>
@@ -206,14 +314,15 @@ function ApplyPage() {
               <RegionSelect
                 className="react-select-container"
                 placeholder={
-                  <div className="select-placeholder-text">선택</div>
+                  <div className="select-placeholder-text">시 선택</div>
                 }
                 onChange={(e) => {
                   if (e) {
                     setRegion(e.value);
                   } else {
-                    setRegion("");
+                    setRegion("선택 없음");
                   }
+                  handleRegion2Option(e)
                 }}
                 options={regionOption}
                 ref={RegionSelectRef}
@@ -222,17 +331,31 @@ function ApplyPage() {
                   IndicatorSeparator: () => null,
                 }}
               />
+              <RegionSelect className="react-select-container"
+                    placeholder={<div className="select-placeholder-text">구 선택</div>}
+                    onChange={ (e) => {
+                      if (e) {
+                        setRegion2(e.value);
+                      } else {
+                        setRegion2("선택 없음");
+                      }
+                    }}
+                    options={region2Option}
+                    ref={Region2SelectRef}
+                    //styles={customStyles}
+                    components={{
+                        IndicatorSeparator: () => null
+                    }}/>
             </SelectLine>
             <SelectLine>
               <Txt>카테고리</Txt>
-              <CategorySelect
-                className="react-select-container"
-                placeholder=""
+              <CategorySelect className="react-select-container"
+                placeholder={<div className="select-placeholder-text">선택없음</div>}
                 onChange={(e) => {
                   if (e) {
                     setCategory(e.value);
                   } else {
-                    setCategory("");
+                    setCategory("선택 없음");
                   }
                 }}
                 options={categoryOption}
@@ -251,7 +374,7 @@ function ApplyPage() {
                   if (e) {
                     setSort(e.value);
                   } else {
-                    setSort("");
+                    setSort("최신순");
                   }
                 }}
                 options={sortOption}
@@ -274,35 +397,48 @@ function ApplyPage() {
             <Button
               className="search"
               title="검색"
-              type="submit"
-              onClick={() => navigate("/apply")}
+              type="submit" 
+              onClick={handleSearch}
             />
           </ButtonContainer>
         </SelectBox>
-      </form>
+
+
       <Total>
         총 &nbsp;<PuppleTxt className="pupple">{total}</PuppleTxt> &nbsp;건의
         복지서비스가 있습니다.
       </Total>
       <CardContainer>
-        <CardLine>
-          <ApplyCard
-            tag="자격증"
-            onClickApply={confirmApply}
-            title="바리스타 자격증"
-            district="서울특별시 강남구"
-            agency="서초 사랑의 복지관"
-            deadline="2023.08.12"
-            tel="02-1111-2222"
-            like="26"
-            iflike={true}
+      {/* <div className='card-list'>
+          {applyCards.programs && applyCards.programs.map(card => (
+            <div key={card.id} className='card-div'>
+              <ApplyCard
+                title={applyCards.programs[card.id]?.title}
+                agency={applyCards.programs[card.id]?.agency}
+                deadline={applyCards.programs[card.id]?.deadline}
+                phone={applyCards.programs[card.id]?.phone}
+                like={applyCards.programs[card.id]?.phone}
+                iflike={applyCards.programs[card.id]?.iflike}
+                tag={applyCards.programs[card.id]?.category}
+                onClickApply={(e) => confirmApply(e)}
+              />
+            </div>
+          ))}
+        </div> */}
+        {Dummy.programs.map((card) => (
+          <ApplyCard key={card.id}
+          image = {card.img}
+          title={card.title}
+          agency={card.agency}
+          deadline={'20'+card.deadline}
+          phone={card.tel}
+          like={card.like}
+          iflike={card.iflike}
+          tag1={card.tag1}
+          tag2={card.tag2}
+          onClickApply={(e) => confirmApply(e)}
           />
-          <ApplyCard />
-        </CardLine>
-        <CardLine>
-          <ApplyCard />
-          <ApplyCard />
-        </CardLine>
+        ))}
       </CardContainer>
       <Pagination
         activePage={page}
