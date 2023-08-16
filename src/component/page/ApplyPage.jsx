@@ -225,16 +225,13 @@ function ApplyPage() {
 
   const handleReset = () => {
     if (
-      RegionSelectRef.current ||
-      Region2SelectRef.current ||
-      CategorySelectRef.current ||
-      SortSelectRef.current
+      RegionSelectRef.current || Region2SelectRef.current || CategorySelectRef.current || SortSelectRef.current
     ) {
-      RegionSelectRef.current.clearValue();
-      Region2SelectRef.current.clearValue();
-      CategorySelectRef.current.clearValue();
-      SortSelectRef.current.clearValue();
-    }
+      RegionSelectRef.current.setValue("선택 없음");
+      Region2SelectRef.current.setValue("선택 없음");
+      CategorySelectRef.current.setValue("선택 없음");
+      SortSelectRef.current.setValue("");
+    } //console.log('초기화');
   }; // 초기화 기능
 
   const confirmApply = (e) => {
@@ -315,7 +312,7 @@ const fetchApplyCards = () => {
                   if (e) {
                     setRegion(e.value);
                   } else {
-                    setRegion("선택없음");
+                    setRegion("선택 없음");
                   }
                   handleRegion2Option(e)
                 }}
@@ -332,7 +329,7 @@ const fetchApplyCards = () => {
                       if (e) {
                         setRegion2(e.value);
                       } else {
-                        setRegion2("선택없음");
+                        setRegion2("선택 없음");
                       }
                     }}
                     options={region2Option}
@@ -350,7 +347,7 @@ const fetchApplyCards = () => {
                   if (e) {
                     setCategory(e.value);
                   } else {
-                    setCategory("");
+                    setCategory("선택 없음");
                   }
                 }}
                 options={categoryOption}
@@ -369,7 +366,7 @@ const fetchApplyCards = () => {
                   if (e) {
                     setSort(e.value);
                   } else {
-                    setSort("");
+                    setSort("최신순");
                   }
                 }}
                 options={sortOption}
