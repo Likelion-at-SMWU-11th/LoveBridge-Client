@@ -9,7 +9,7 @@ const Card = styled.div`
     border: 1px solid #DFDFDF;
     background: #FFF;
     width: 34vw;
-    height: 75vh;
+    height: 77vh;
     padding: 3vh 3vw 7vh 3vw;
 `
 const TopLine = styled.div`
@@ -23,6 +23,7 @@ const Tag = styled.div`
     color: #4F4F4F;
     font-size: 1.1em;
     font-weight: 500;
+    margin-right: 10px;
 `
 const Like = styled.div`
     display: flex;
@@ -89,9 +90,12 @@ const StyledButton = styled.div`
         }
     }
 `
+const TagContainer = styled.div`
+    display: flex;
+`
 
 function ApplyCard(props) {
-    const { tag, image, title, district, agency, deadline, tel, like, iflike, onClickApply } = props;
+    const { tag1, tag2, image, title, district, agency, deadline, tel, applicants, like, iflike, onClickApply } = props;
     const [islike, setIslike ] = useState(iflike); // 초기값을 iflike로
 
     function handleLike() {
@@ -101,7 +105,7 @@ function ApplyCard(props) {
     return (
         <Card>
             <TopLine>
-                <Tag>#{tag || "태그"}</Tag>
+                <TagContainer><Tag>#{tag1 || "태그1"}</Tag><Tag>#{tag2 || "태그2"}</Tag></TagContainer>
                 <Like>
                     <LikeNum>{like || "0"}</LikeNum>
                     {islike? <LikeBtn onClick={handleLike}><img src={likebtnactive}/></LikeBtn> : <LikeBtn onClick={handleLike} style={{marginRight:"2px", marginLeft:"3px"}}><img src={likebtn}/></LikeBtn>}
@@ -113,6 +117,7 @@ function ApplyCard(props) {
             <AgencyLine>• 담당기관 <Agency>{agency || "담당기관이름"}</Agency></AgencyLine>
             <AgencyLine>• 지원마감 <Agency>{deadline || "2023.08.12"}</Agency></AgencyLine>
             <AgencyLine>• 문의처 <Agency>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ tel || "02-1234-1234"}</Agency></AgencyLine>
+            <AgencyLine>• 신청인원 <Agency>{applicants || "0명"}</Agency></AgencyLine>
             <StyledButton><Button title="신청" onClick={onClickApply}></Button></StyledButton>
         </Card>
     );

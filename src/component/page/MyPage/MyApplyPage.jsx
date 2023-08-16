@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import PagePath from '../../ui/PagePath';
+import Applied from '../../ui/Applied';
 import step1 from '../../img/step1.svg';
 import step2 from '../../img/step2.svg';
 import step3 from '../../img/step3.svg';
@@ -46,7 +47,8 @@ function MyApplyPage() {
             <img src={step3}/><Txt>심사 완료</Txt>
         </Step>
       </StepLine>
-      <Line/>
+      <Line style={{marginBottom: "50px"}}/>
+      <Applied />
     </Wrapper>
   )
 }

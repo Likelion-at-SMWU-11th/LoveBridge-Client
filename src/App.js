@@ -9,10 +9,11 @@ import MyPage from './component/page/MyPage/MyPage';
 import MyDocPage from './component/page/MyPage/MyDocPage';
 import MyApplyPage from './component/page/MyPage/MyApplyPage';
 import MyLikePage from './component/page/MyPage/MyLikePage';
+import SaveDocPage from "./component/page/MyPage/SaveDocPage";
 import { createGlobalStyle } from "styled-components";
 
 const Page = styled.div`
-  margin-top: 113px;
+  margin-top: 80px;
 `;
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path='/apply' element={<ApplyPage />}/>
         <Route path='/my' element={<MyPage />}/>
         <Route path='/my/doc' element={<MyDocPage />}/>
+        <Route path='/my/doc/save' element={<SaveDocPage />}/>
         <Route path='/my/apply' element={<MyApplyPage />}/>
         <Route path='/my/like' element={<MyLikePage />}/>
       </Routes>

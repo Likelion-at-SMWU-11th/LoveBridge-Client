@@ -18,7 +18,7 @@ const Bar = styled.div`
 `;
 const NavContainer = styled.div`
   display: flex;
-  margin-top: 10px;
+  margin-top: 15px;
 `;
 const Navi = styled.div`
   font-weight: 600;
@@ -31,7 +31,7 @@ const Line = styled(motion.hr)`
   border: 0;
   height: 4px;
   background: #ad88eb;
-  margin-top: 30px;
+  margin-top: 27px;
   border-radius: 50px;
   transition: all ease 0.3s;
 `;
@@ -64,14 +64,14 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 const LogoImg = styled.div`
-  margin-left: 39px;
+  margin-left: 50px;
   margin-right: 52px;
-  margin-top: 2px;
+  margin-top: 5px;
   cursor: pointer;
 `;
 const LogoNaviContainer = styled.div`
   display: flex;
-  margin-top: 36px;
+  margin-top: 25px;
 `;
 
 const Topbar = () => {
@@ -88,7 +88,7 @@ const Topbar = () => {
       <LogoNaviContainer
         style={
           location.pathname === "/" || location.pathname === "/login"
-            ? { marginBottom: "30px" }
+            ? { marginBottom: "28px" }
             : {}
         }
       >
@@ -97,7 +97,7 @@ const Topbar = () => {
         </LogoImg>
         <NavContainer>
           <Navi onClick={() => navigate("/apply")}>
-            신청 목록
+            프로그램 신청
             {location.pathname !== "/login" &&
               location.pathname !== "/" &&
               location.pathname === "/apply" && (
