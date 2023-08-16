@@ -242,10 +242,13 @@ function ApplyPage() {
     } //console.log('초기화');
   }; // 초기화 기능
 
-  const confirmApply = (e) => {
+  const confirmApply = (e, Id) => {
     var programName = e.target.parentElement.parentElement.children[2].textContent;
+    console.log(Id);
+    //var Id = e.target
     if (window.confirm(`[${programName}] 정말 신청하시겠습니까?`)) {
-      alert(`[${programName}] 신청이 완료되었습니다`);
+      axios.post(`http://127.0.0.1:8000/programs/list/${Id}/`)
+      alert(`[${programName}] 신청이 완료되었습니다 `);
     } else {
       alert("취소합니다.");
     }
@@ -256,7 +259,8 @@ function ApplyPage() {
     axios.post(`http://127.0.0.1:8000/programs/search/`, {
       district: region+' '+region2, 
       category: category, 
-      sort: sort})
+      sort: sort
+    })
     .then(response => {
       console.log(response);
       setRegion('');
@@ -277,24 +281,27 @@ useEffect(() => {
 }, []);
 
 const fetchApplyCards = () => {
-  axios.get('http://127.0.0.1:8000/programs/search/')
+  axios.get('http://127.0.0.1:8000/programs/list/')
   .then(response => {
     setApplyCards(response.data);
-    const initialApplyCards = {};
-    response.data.forEach(card => {
-      initialApplyCards[card.id] = { 
-        title: card.title,
-        district: card.district,
-        agency: card.agency,
-        deadline: '20'+card.deadline_yy+card.deadline_mm+card.deadline_dd,
-        phone: card.phone,
-        like: card.like,
-        category: card.category,
-        iflike: card.iflike,
-        // userid: card.userid, 
-      }
-    });
-    setApplyCards(initialApplyCards);
+    for ( var i = 0; i < response.data.length; i++) {
+      applyCards[i] = { 
+            id: response.data[i].id,
+            title: response.data[i].title,
+            district: response.data[i].district,
+            image: response.data[i].image,
+            agency: response.data[i].agency,
+            deadline: '20'+response.data[i].deadline_yy+response.data[i].deadline_mm+response.data[i].deadline_dd,
+            phone: response.data[i].phone,
+            tag1: response.data[i].category[0],
+            tag2: response.data[i].category[1],
+            //applicants: response.data[i].applicants,
+            like: response.data[i].like,
+            iflike: response.data[i].iflike,
+            // userid: card.userid, 
+          };
+    };
+    console.log(applyCards);
   })
   .catch(error => {
     console.error('Error fetching cards: ', error);
@@ -409,24 +416,29 @@ const fetchApplyCards = () => {
         복지서비스가 있습니다.
       </Total>
       <CardContainer>
-      {/* <div className='card-list'>
-          {applyCards.programs && applyCards.programs.map(card => (
+          {applyCards && applyCards.map(card => (
             <div key={card.id} className='card-div'>
               <ApplyCard
-                title={applyCards.programs[card.id]?.title}
-                agency={applyCards.programs[card.id]?.agency}
-                deadline={applyCards.programs[card.id]?.deadline}
-                phone={applyCards.programs[card.id]?.phone}
-                like={applyCards.programs[card.id]?.phone}
-                iflike={applyCards.programs[card.id]?.iflike}
-                tag={applyCards.programs[card.id]?.category}
-                onClickApply={(e) => confirmApply(e)}
+                title={card.title}
+                agency={card.agency}
+                deadline={card.deadline}
+                district={card.district}
+                phone={card.phone}
+                like={card.phone}
+                iflike={card.iflike}
+                tag1={card.tag1}
+                tag2={card.tag2}
+                onClickApply={(e) => confirmApply(e, card.id)}
               />
             </div>
           ))}
-        </div> */}
-        {Dummy.programs.map((card) => (
+        {/* <ApplyCard 
+          id="1"
+          onClickApply={(e) => confirmApply(e)}/> */}
+
+        {/* {Dummy.programs.map((card) => (
           <ApplyCard key={card.id}
+          id={card.id}
           image = {card.img}
           title={card.title}
           agency={card.agency}
@@ -437,8 +449,8 @@ const fetchApplyCards = () => {
           tag1={card.tag1}
           tag2={card.tag2}
           onClickApply={(e) => confirmApply(e)}
-          />
-        ))}
+          /> 
+        ))}*/}
       </CardContainer>
       <Pagination
         activePage={page}
