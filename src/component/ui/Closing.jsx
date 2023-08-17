@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Dummy from "../../dummy.json";
 import PrevArrow from "../img/prev.svg";
 import NextArrow from "../img/next.svg";
+import closingIcon from '../img/closing-program.svg';
 import axios from "axios";
 
 const Hot = () => {
@@ -65,7 +66,7 @@ const Hot = () => {
   return (
     <div>
       <Header>
-        <Topic>마감 임박 프로그램</Topic>
+        <Topic><img src={closingIcon}/>마감 임박 프로그램</Topic>
         <p>모집 마감이 얼마 남지 않았어요. 놓치지 마세요!</p>
       </Header>
       <Wrap>
@@ -118,6 +119,9 @@ const Topic = styled.h3`
   margin-top: 60px;
   margin-left: 40px;
   margin-bottom: 10px;
+  > img {
+    margin-right: 10px;
+  }
 `;
 
 const Wrap = styled.div`

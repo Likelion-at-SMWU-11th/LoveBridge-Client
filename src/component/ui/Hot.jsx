@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Dummy from "../../dummy.json";
 import PrevArrow from "../img/prev.svg";
 import NextArrow from "../img/next.svg";
+import hotIcon from '../img/hot-program.svg'
 import axios from "axios";
 
 const Hot = () => {
@@ -72,7 +73,7 @@ const Hot = () => {
   return (
     <div>
       <Header>
-        <Topic>인기 프로그램</Topic>
+        <Topic><img src={hotIcon}/>인기 프로그램</Topic>
         <p>실시간으로 가장 인기있는 프로그램이에요.</p>
       </Header>
       <Wrap>
@@ -125,6 +126,9 @@ const Topic = styled.h3`
   margin-top: 60px;
   margin-left: 40px;
   margin-bottom: 10px;
+  > img {
+    margin-right: 10px;
+  }
 `;
 
 const Wrap = styled.div`
