@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from 'react-responsive';
 
 import PagePath from "../ui/PagePath";
 import Select from "react-select";
@@ -31,8 +32,7 @@ const Info = styled.div`
 `;
 const SelectBox = styled.div`
   border: 0.973px solid rgba(0, 0, 0, 0.2);
-  height: 350px;
-  padding: 30px 45px 30px 45px;
+  padding: 30px 45px 60px 45px;
 `;
 const PuppleTxt = styled.div`
   color: #ad88eb;
@@ -42,7 +42,7 @@ const PuppleTxt = styled.div`
   letter-spacing: -0.778px;
 `;
 const SelectContainer = styled.div`
-  margin: 3vh 0 3vh 0;
+  margin: 3vh 0 3vh 0; 
 `;
 
 const SelectLine = styled.div`
@@ -58,7 +58,6 @@ const RegionSelect = styled(Select)`
   }
 `;
 const CategorySelect = styled(Select)`
-  width: 15vw;
 
   .select-placeholder-text {
     color: #4f4f4f;
@@ -107,12 +106,6 @@ const Total = styled.div`
 const CardContainer = styled.div`
   display: grid;
   grid-template-columns: 44vw 34vw;
-
-`;
-const CardLine = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 30px;
 `;
 // const customStyles = {
 //   control: (provided) => ({
@@ -186,7 +179,7 @@ let sortOption = [
 ]
 
 function ApplyPage() {
-  const form = useRef();
+  const isDesktop = useMediaQuery({ minWidth: 750 });
   const navigate = useNavigate();
 
   const [total, setTotal] = useState(0);
@@ -255,6 +248,15 @@ function ApplyPage() {
     
   }; // 신청 시 alert
 
+  const handleLike = (e, Id, iflike) => {
+    console.log(Id, iflike);
+    if (iflike === true) {
+      console.log("좋아요 삭제");
+    } else {
+      console.log("좋아요 등록");
+    }
+  } // 좋아요 handle
+
   const handleSearch = () => {
     axios.post(`http://127.0.0.1:8000/programs/search/`, {
       district: region+' '+region2, 
@@ -284,6 +286,7 @@ const fetchApplyCards = () => {
   axios.get('http://127.0.0.1:8000/programs/list/')
   .then(response => {
     setApplyCards(response.data);
+    console.log(response.data);
     for ( var i = 0; i < response.data.length; i++) {
       applyCards[i] = { 
             id: response.data[i].id,
@@ -293,22 +296,23 @@ const fetchApplyCards = () => {
             agency: response.data[i].agency,
             deadline: '20'+response.data[i].deadline_yy+response.data[i].deadline_mm+response.data[i].deadline_dd,
             phone: response.data[i].phone,
-            tag1: response.data[i].category[0],
-            tag2: response.data[i].category[1],
+            category: response.data[i].category,
             //applicants: response.data[i].applicants,
             like: response.data[i].like,
             iflike: response.data[i].iflike,
             // userid: card.userid, 
           };
     };
-    console.log(applyCards);
   })
   .catch(error => {
     console.error('Error fetching cards: ', error);
   });
+  console.log(applyCards);
 };
 
   return (
+    <>
+    {isDesktop? 
     <Wrapper>
       <PagePath pathname1="프로그램 신청" />
       <Title>지원프로그램 검색</Title>
@@ -424,11 +428,12 @@ const fetchApplyCards = () => {
                 deadline={card.deadline}
                 district={card.district}
                 phone={card.phone}
-                like={card.phone}
+                like={card.like}
                 iflike={card.iflike}
-                tag1={card.tag1}
-                tag2={card.tag2}
+                tag1={card.category[0]}
+                tag2={card.category[1]}
                 onClickApply={(e) => confirmApply(e, card.id)}
+                onClickLike={(e) => handleLike(e, card.id, card.iflike)}
               />
             </div>
           ))}
@@ -462,7 +467,206 @@ const fetchApplyCards = () => {
         onChange={handlePageChange}
       />
     </Wrapper>
+    :
+    <MobileWrapper>
+      <PagePath pathname1="프로그램 신청" />
+      <MobileTitle>지원프로그램 검색</MobileTitle>
+      <MobileInfo>한 눈에 보고 , 클릭 한번으로 서비스를 신청할 수 있습니다.</MobileInfo>
+        <SelectBox>
+          <PuppleTxt>항목을 선택해주세요.</PuppleTxt>
+          <SelectContainer>
+            <MobileSelectLine>
+              <Txt>지역(시)</Txt>
+              <MobileRegionSelect
+                className="react-select-container"
+                placeholder={
+                  <div className="select-placeholder-text">시 선택</div>
+                }
+                onChange={(e) => {
+                  if (e) {
+                    setRegion(e.value);
+                  } else {
+                    setRegion("선택 없음");
+                  }
+                  handleRegion2Option(e)
+                }}
+                options={regionOption}
+                ref={RegionSelectRef}
+                //styles={customStyles}
+                components={{
+                  IndicatorSeparator: () => null,
+                }}
+              />
+            </MobileSelectLine>
+            <MobileSelectLine>
+              <Txt>지역(구)</Txt>
+            <MobileRegionSelect className="react-select-container"
+                    placeholder={<div className="select-placeholder-text">구 선택</div>}
+                    onChange={ (e) => {
+                      if (e) {
+                        setRegion2(e.value);
+                      } else {
+                        setRegion2("선택 없음");
+                      }
+                    }}
+                    options={region2Option}
+                    ref={Region2SelectRef}
+                    //styles={customStyles}
+                    components={{
+                        IndicatorSeparator: () => null
+                    }}/>
+            </MobileSelectLine>
+            <MobileSelectLine>
+              <Txt>카테고리</Txt>
+              <MobileCategorySelect className="react-select-container"
+                placeholder={<div className="select-placeholder-text">선택없음</div>}
+                onChange={(e) => {
+                  if (e) {
+                    setCategory(e.value);
+                  } else {
+                    setCategory("선택 없음");
+                  }
+                }}
+                options={categoryOption}
+                ref={CategorySelectRef}
+                components={{
+                  IndicatorSeparator: () => null,
+                }}
+              />
+            </MobileSelectLine>
+            <MobileSelectLine>
+              <Txt>검색정렬</Txt>
+              <MobileSortSelect
+                className="react-select-container"
+                placeholder=""
+                onChange={(e) => {
+                  if (e) {
+                    setSort(e.value);
+                  } else {
+                    setSort("최신순");
+                  }
+                }}
+                options={sortOption}
+                ref={SortSelectRef}
+                components={{
+                  IndicatorSeparator: () => null,
+                }}
+              />
+            </MobileSelectLine>
+          </SelectContainer>
+          <MobileButtonContainer>
+            <MobileStyledButton>
+              <Button
+                className="reset"
+                type="button"
+                title="초기화"
+                onClick={() => handleReset()}
+              />
+            </MobileStyledButton>
+            <Button
+              className="search"
+              title="검색"
+              type="submit" 
+              onClick={handleSearch}
+            />
+          </MobileButtonContainer>
+        </SelectBox>
+        <MobileTotal>
+        총 &nbsp;<PuppleTxt className="pupple">{total}</PuppleTxt> &nbsp;건의
+        복지서비스가 있습니다.
+      </MobileTotal>
+      <MobileCardContainer>
+          {applyCards && applyCards.map(card => (
+            <div key={card.id} className='card-div'>
+              <ApplyCard
+                title={card.title}
+                agency={card.agency}
+                deadline={card.deadline}
+                district={card.district}
+                phone={card.phone}
+                like={card.like}
+                iflike={card.iflike}
+                tag1={card.category[0]}
+                tag2={card.category[1]}
+                onClickApply={(e) => confirmApply(e, card.id)}
+                onClickLike={(e) => handleLike(e, card.id, card.iflike)}
+              />
+            </div>
+          ))}
+          </MobileCardContainer>
+      </MobileWrapper>}
+    </>
   );
 }
+const MobileWrapper = styled.div`
+  padding: 45px 50px 0px 50px;
+`
+const MobileTitle = styled.div`
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  margin-top: 50px;
+`;
+const MobileInfo = styled.div`
+  color: #222;
+  font-size: 12px;
+  font-weight: 350;
+  letter-spacing: -0.8px;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  letter-spacing: -0.8px;
+`;
+const MobileSelectLine = styled.div`
+  display: flex;
+  padding: 3vh 0 0 3vw;
+`;
+const MobileRegionSelect = styled(Select)`
+  width: 25vw;
+
+  .select-placeholder-text {
+    color: #4f4f4f;
+  }
+`;
+const MobileCategorySelect = styled(Select)`
+
+  .select-placeholder-text {
+    color: #4f4f4f;
+  }
+`;
+const MobileSortSelect = styled(Select)`
+  width: 25vw;
+`;
+const MobileButtonContainer = styled.div`
+  display: flex;
+  width: fit-content;
+  margin: auto;
+  > Button {
+    width: 25vw;
+    border-radius: 7.783px;
+  }
+`;
+const MobileStyledButton = styled.div`
+  > Button {
+    background: #6d6f82;
+    width: 25vw;
+    margin-right: 5px;
+    border-radius: 7.783px;
+  }
+`;
+const MobileTotal = styled.div`
+  display: flex;
+  margin: 5vh 0 1vh 0;
+  font-weight: 350;
+  font-size: 20px;
+  color: #222;
+  letter-spacing: -1px;
+
+  .pupple {
+    font-size: 20px;
+    font-weight: 350;
+  }
+`;
+const MobileCardContainer = styled.div`
+`;
 
 export default ApplyPage;
