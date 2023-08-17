@@ -7,6 +7,7 @@ import google from '../img/google-logo.svg';
 import naver from '../img/naver-logo.svg';
 import logo from '../img/logo.svg';
 import {motion} from 'framer-motion';
+import { useMediaQuery } from 'react-responsive';
 
 const Wrapper = styled.div`
 padding: 100px 136px 0px 123px;
@@ -25,21 +26,21 @@ const Line = styled.hr`
     height: 4px;
     background: #AD88EB;
     margin-top: 2vh;
+    opacity: 1;
     border-radius: 50px;
     margin-bottom: 70px;
     margin-top: 50px;
 `
 const BtnContainer = styled.div`
-display: flex;
-justify-content: space-between;
-
+    display: flex;
+    justify-content: space-between;
 `
 const KaKaO = styled.div`
     display: flex;
     align-items: center;
     >button {
         background: #FFDE00;
-        width: 400px;
+        width: 26vw;
         color: #000000;
         margin-bottom: 20px;
     }
@@ -49,7 +50,7 @@ const Google = styled.div`
     align-items: center;
     >button {
         background: #ECECEC;
-        width: 400px;
+        width: 26vw;
         color: #000;
         margin-bottom: 20px;
     }
@@ -59,7 +60,7 @@ const Naver = styled.div`
     align-items: center;
     >button {
         background: #2DB400;
-        width: 400px;
+        width: 26vw;
         color: #fff;
         margin-bottom: 20px;
     }
@@ -92,8 +93,11 @@ const hoverVariants = {
   
 
 function LoginPage() {
+    const isDesktop = useMediaQuery({ minWidth: 1000 });
     
   return (
+    <>
+    {isDesktop? 
     <Wrapper>
         <LoginInfo><img src={logo}/><TitleTxt>간편 소셜 로그인</TitleTxt><SubTxt>이미 소유하고 계신 소셜 계정으로 간편하게 로그인해보세요.</SubTxt></LoginInfo>
             <LoginContainer>
@@ -105,7 +109,95 @@ function LoginPage() {
                 </BtnContainer>
             </LoginContainer>
     </Wrapper>
+    :
+    <MobileWrapper>
+        <MobileLoginInfo><img src={logo}/><MobileTitleTxt>간편 소셜 로그인</MobileTitleTxt><MobileSubTxt>이미 소유하고 계신 소셜 계정으로 간편하게 로그인해보세요.</MobileSubTxt></MobileLoginInfo>
+            <MobileLoginContainer>
+            <MobileLine/>
+                <MobileBtnContainer>
+                    <MobileKaKaO ><MobileStyledButton whileHover={["grow"]} variants={hoverVariants}><img src={kako}/>카카오 로그인</MobileStyledButton></MobileKaKaO>
+                    <MobileGoogle><MobileStyledButton whileHover={["grow"]} variants={hoverVariants}><img src={google}/>구글 로그인</MobileStyledButton></MobileGoogle>
+                    <MobileNaver><MobileStyledButton whileHover={["grow"]} variants={hoverVariants}><img src={naver}/>네이버 로그인</MobileStyledButton></MobileNaver>
+                </MobileBtnContainer>
+            </MobileLoginContainer>
+    </MobileWrapper>}
+    </>
   )
 }
+const MobileWrapper = styled.div`
+padding: 100px 50px 0px 50px;
+`
+const MobileLoginContainer = styled.div`
+    margin: auto;
+`
+const MobileTitleTxt = styled.div`
+    font-size: 2em;
+    color: #454545;
+    font-weight: 700;
+    margin-top: 10px;
+`
+const MobileLine = styled.hr`
+    border: 0;
+    height: 4px;
+    background: #AD88EB;
+    margin-top: 2vh;
+    opacity: 1;
+    border-radius: 50px;
+    margin-bottom: 70px;
+    margin-top: 50px;
+`
+const MobileBtnContainer = styled.div`
 
+`
+const MobileKaKaO = styled.div`
+    display: flex;
+    align-items: center;
+    >button {
+        background: #FFDE00;
+        width: 100%;
+        color: #000000;
+        margin-bottom: 20px;
+    }
+`
+const MobileGoogle = styled.div`
+    display: flex;
+    align-items: center;
+    >button {
+        background: #ECECEC;
+        width: 100%;
+        color: #000;
+        margin-bottom: 20px;
+    }
+`
+const MobileNaver = styled.div`
+    display: flex;
+    align-items: center;
+    >button {
+        background: #2DB400;
+        width: 100%;
+        color: #fff;
+        margin-bottom: 20px;
+    }
+`
+const MobileStyledButton = styled(motion.button)`
+    font-size: 1.3em;
+    font-weight: 700;
+    border: 0px;
+    cursor: pointer;
+    border-radius: 30px;
+    background: #AD88EB;
+    padding: 10px;
+    color: #fff;
+    height: 100px;
+    > img {
+        margin-right: 15px;
+        padding-top: 1px;
+    }
+`
+const MobileLoginInfo = styled.div`
+`
+const MobileSubTxt = styled.div`
+    margin-bottom: 30px;
+    font-size: 1em;
+`
 export default LoginPage
