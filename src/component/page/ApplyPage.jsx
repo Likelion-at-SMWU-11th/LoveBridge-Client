@@ -105,7 +105,8 @@ const Total = styled.div`
 `;
 const CardContainer = styled.div`
   display: grid;
-  grid-template-columns: 44vw 34vw;
+  grid-template-columns: 38vw 38vw;
+  justify-content: space-between;
 `;
 // const customStyles = {
 //   control: (provided) => ({
@@ -294,9 +295,13 @@ const fetchApplyCards = () => {
             district: response.data[i].district,
             image: response.data[i].image,
             agency: response.data[i].agency,
-            deadline: '20'+response.data[i].deadline_yy+response.data[i].deadline_mm+response.data[i].deadline_dd,
+            deadline_yy: response.data[i].deadline_yy,
+            deadline_mm: response.data[i].deadline_mm,
+            deadline_dd: response.data[i].deadline_dd,
             phone: response.data[i].phone,
-            category: response.data[i].category,
+            category1: response.data[i].category1,
+            category2: response.data[i].category2,
+            applicant: response.data[i].applicant,
             //applicants: response.data[i].applicants,
             like: response.data[i].like,
             iflike: response.data[i].iflike,
@@ -307,7 +312,7 @@ const fetchApplyCards = () => {
   .catch(error => {
     console.error('Error fetching cards: ', error);
   });
-  console.log(applyCards);
+  console.log('applycards',applyCards);
 };
 
   return (
@@ -425,13 +430,14 @@ const fetchApplyCards = () => {
               <ApplyCard
                 title={card.title}
                 agency={card.agency}
-                deadline={card.deadline}
+                deadline={card.deadline_yy+'.'+card.deadline_mm+'.'+card.deadline_dd}
                 district={card.district}
                 phone={card.phone}
                 like={card.like}
                 iflike={card.iflike}
-                tag1={card.category[0]}
-                tag2={card.category[1]}
+                tag1={card.category1}
+                tag2={card.category2}
+                applicants={card.applicant+'명'}
                 onClickApply={(e) => confirmApply(e, card.id)}
                 onClickLike={(e) => handleLike(e, card.id, card.iflike)}
               />
@@ -581,13 +587,14 @@ const fetchApplyCards = () => {
               <ApplyCard
                 title={card.title}
                 agency={card.agency}
-                deadline={card.deadline}
+                deadline={card.deadline_yy+'.'+card.deadline_mm+'.'+card.deadline_dd}
                 district={card.district}
                 phone={card.phone}
                 like={card.like}
                 iflike={card.iflike}
-                tag1={card.category[0]}
-                tag2={card.category[1]}
+                tag1={card.category1}
+                tag2={card.category2}
+                applicants={card.applicant+'명'}
                 onClickApply={(e) => confirmApply(e, card.id)}
                 onClickLike={(e) => handleLike(e, card.id, card.iflike)}
               />

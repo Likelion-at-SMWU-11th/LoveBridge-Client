@@ -8,8 +8,8 @@ const Card = styled.div`
     border-radius: 30px;
     border: 1px solid #DFDFDF;
     background: #FFF;
-    width: 550px;
-    padding: 30px 50px 40px 50px;
+    width: 100%;
+    padding: 30px 50px 90px 50px;
     margin-bottom: 50px;
 `
 const TopLine = styled.div`
@@ -95,7 +95,7 @@ const TagContainer = styled.div`
 `
 
 function ApplyCard(props) {
-    const { id, tag1, tag2, image, title, district, agency, deadline, tel, applicants, like, iflike, onClickApply } = props;
+    const { id, tag1, tag2, image, title, district, agency, deadline, tel, applicants, like, iflike, onClickApply, onClickLike } = props;
     const [islike, setIslike ] = useState(iflike); // 초기값을 iflike로
 
     function handleLike() {
@@ -105,10 +105,10 @@ function ApplyCard(props) {
     return (
         <Card>
             <TopLine>
-                <TagContainer><Tag>#{tag1 || "태그1"}</Tag><Tag>#{tag2 || "태그2"}</Tag></TagContainer>
+                <TagContainer><Tag>#{tag1|| "태그1"}</Tag><Tag>#{tag2 || "태그2"}</Tag></TagContainer>
                 <Like>
                     <LikeNum>{like || "0"}</LikeNum>
-                    {islike? <LikeBtn onClick={handleLike}><img src={likebtnactive}/></LikeBtn> : <LikeBtn onClick={handleLike} style={{marginRight:"2px", marginLeft:"3px"}}><img src={likebtn}/></LikeBtn>}
+                    {islike? <LikeBtn onClick={() => {handleLike(); onClickLike();}}><img src={likebtnactive}/></LikeBtn> : <LikeBtn onClick={() => {handleLike(); onClickLike();}} style={{marginRight:"2px", marginLeft:"3px"}}><img src={likebtn}/></LikeBtn>}
                 </Like>
             </TopLine>
             <ImgContainer src={image}></ImgContainer>
