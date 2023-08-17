@@ -2,6 +2,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import styled from 'styled-components';
 import Topbar from './component/ui/Topbar';
+import TopbarMini from "./component/ui/TopbarMini";
 import LoginPage from './component/page/LoginPage';
 import MainPage from './component/page/MainPage';
 import ApplyPage from './component/page/ApplyPage';
@@ -11,16 +12,18 @@ import MyApplyPage from './component/page/MyPage/MyApplyPage';
 import MyLikePage from './component/page/MyPage/MyLikePage';
 import SaveDocPage from "./component/page/MyPage/SaveDocPage";
 import { createGlobalStyle } from "styled-components";
+import { useMediaQuery } from 'react-responsive';
 
 const Page = styled.div`
   margin-top: 80px;
 `;
 
 function App() {
+  const isDesktop = useMediaQuery({ minWidth: 750});
   return (
     <>
       <GlobalStyle />
-    <Topbar />
+      {isDesktop? <Topbar /> : <TopbarMini/>}
     <Page>
       <Routes>
         <Route path='/' element={<MainPage />}/>
