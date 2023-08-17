@@ -81,7 +81,10 @@ const Hot = () => {
             <Item key={hot.id}>
               <Img src={hot.img}></Img>
               <Title>{hot.title}</Title>
-              <Address>{hot.address}</Address>
+              <Info>
+                <Address>{hot.address}</Address>
+                <button>신청</button>
+              </Info>
             </Item>
           ))} */}
         </Slider>
@@ -172,6 +175,27 @@ const Title = styled.h3`
   width: 240px;
   margin-right: 0px !important;
   margin-bottom: 10px;
+  margin-left: 5px;
+`;
+
+const Info = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 5px;
+  button {
+    border-radius: 6px;
+    border: 1px solid #fff;
+    background: #6d6f82;
+    width: fit-content;
+    color: #fff;
+    font-weight: 300;
+    width: 74px;
+    height: 30px;
+    margin-right: 8px;
+    margin-top: 3px;
+  }
 `;
 
 const Address = styled.p`
@@ -183,6 +207,7 @@ const Address = styled.p`
   line-height: normal;
   width: 240px;
   margin-right: 0px !important;
+  margin: 3px 0px;
 `;
 
 const PrevBtn = styled.button`
