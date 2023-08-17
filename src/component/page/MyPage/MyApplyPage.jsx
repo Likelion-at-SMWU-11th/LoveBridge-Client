@@ -8,6 +8,7 @@ import step2 from "../../img/step2.svg";
 import step3 from "../../img/step3.svg";
 import arrow from "../../img/myapply_arrow.svg";
 import Dummy from "../../../dummy.json";
+import { useMediaQuery } from 'react-responsive';
 
 const Wrapper = styled.div`
   padding: 45px 136px 0px 123px;
@@ -29,6 +30,7 @@ const Arrow = styled.div``;
 const Line = styled.hr``;
 
 function MyApplyPage() {
+  const isDesktop = useMediaQuery({ minWidth: 950 });
   const [applied, setApplied] = useState([]);
 
   useEffect(() => {
@@ -66,6 +68,8 @@ function MyApplyPage() {
   };
 
   return (
+    <>
+    {isDesktop? 
     <Wrapper>
       <PagePath pathname1="마이페이지" pathname2="내가 신청한 프로그램" />
       <Line style={{ marginTop: "50px" }} />
@@ -101,7 +105,70 @@ function MyApplyPage() {
         ))}
       </div>
     </Wrapper>
+    :
+    <MobileWrapper>
+      <PagePath pathname1="마이페이지" pathname2="내가 신청한 프로그램" />
+      <MobileLine style={{ marginTop: "50px" }} />
+      <MobileStepLine>
+        <MobileStep>
+          <img src={step1} />
+          <MobileTxt>서류 전달</MobileTxt>
+        </MobileStep>
+        <MobileArrow>
+          <img src={arrow} />
+        </MobileArrow>
+        <MobileStep>
+          <img src={step2} />
+          <MobileTxt>심사 중</MobileTxt>
+        </MobileStep>
+        <MobileArrow>
+          <img src={arrow} />
+        </MobileArrow>
+        <MobileStep>
+          <img src={step3} />
+          <MobileTxt>심사 완료</MobileTxt>
+        </MobileStep>
+      </MobileStepLine>
+      <MobileLine style={{ marginBottom: "50px" }} />
+      <div>
+        {applied.map((program) => (
+          <Applied
+            key={program.id}
+            title={program.title}
+            district={program.district}
+            onClick={(e) => cancelApply(e)}
+          />
+        ))}
+      </div>
+    </MobileWrapper>}
+    </>
   );
 }
+const MobileWrapper = styled.div`
+  padding: 45px 50px 0px 50px;
+`;
+const MobileStepLine = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 20px 40px 20px;
+`;
+const MobileStep = styled.div`
+  > img {
+    width: 15vw;
+  }
+`;
+const MobileTxt = styled.div`
+  font-size: 18px;
+  text-align: center;
+  font-weight: 500;
+  color: #565656;
+`;
+const MobileArrow = styled.div`
+> img {
+  width: 3vw;
+}
+`;
+const MobileLine = styled.hr``;
 
 export default MyApplyPage;
