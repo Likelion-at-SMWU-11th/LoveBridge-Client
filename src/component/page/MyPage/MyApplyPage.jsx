@@ -41,13 +41,13 @@ function MyApplyPage() {
       .then((response) => {
         setApplied(response.data);
         console.log(response.data);
-        for ( var i = 0; i < response.data.length; i++) {
+        for (var i = 0; i < response.data.length; i++) {
           applied[i] = {
             id: response.data[i].id,
             title: response.data[i].title,
             district: response.data[i].district,
-          }
-        };
+          };
+        }
         console.log(applied);
       })
       .catch((error) => {
@@ -55,10 +55,20 @@ function MyApplyPage() {
       });
   };
 
-  const cancelApply = (e) => {
+  const cancelApply = (e, id) => {
     var programName =
       e.target.parentElement.parentElement.children[0].children[0].textContent;
     if (window.confirm(`[${programName}] 정말 취소하시겠습니까?`)) {
+      axios
+        .delete(`http://127.0.0.1:8000/mypage/myprograms/${id}/`)
+        .then((response) => {
+          fetchAppliedPrograms();
+        })
+        .catch((error) => {
+          console.error("Error deleting programs: ", error);
+        });
+      console.log(id);
+
       alert(`[${programName}] 취소가 완료되었습니다`);
     } else {
       alert("아직 신청 상태입니다.");
@@ -96,7 +106,7 @@ function MyApplyPage() {
             key={program.id}
             title={program.title}
             district={program.district}
-            onClick={(e) => cancelApply(e)}
+            onClick={(e) => cancelApply(e, program.id)}
           />
         ))}
       </div>
