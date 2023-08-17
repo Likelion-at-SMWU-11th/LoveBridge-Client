@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -27,6 +28,12 @@ const Banner = () => {
     pauseOnDotsHover: true,
   };
 
+  const navigate = useNavigate();
+
+  const navToMyDoc = () => {
+    navigate("/my/doc");
+  };
+
   return (
     <Wrapper>
       <Slider {...settings}>
@@ -39,7 +46,7 @@ const Banner = () => {
               <br />
               이제는 기관 방문 없이도 등록된 서류를 통해 한 번의 클릭으로
             </Description>
-            <button>내 서류 등록하기 {">"}</button>
+            <button onClick={navToMyDoc}>내 서류 등록하기 {">"}</button>
           </Container>
         </Slide1>
         <Slide2>
@@ -108,8 +115,8 @@ const Slide1 = styled.div`
     margin-right: 160px;
   }
   button {
-    width: 276px;
-    height: 60px;
+    width: 300px;
+    height: 64px;
     flex-shrink: 0;
     border-radius: 10px;
     background: #ad88eb;
@@ -118,9 +125,9 @@ const Slide1 = styled.div`
     border: none;
     font-family: Noto Sans;
     text-align: center;
-    font-size: 22px;
+    font-size: 24px;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 550;
     line-height: normal;
     float: right;
     margin-left: 286px;
@@ -136,9 +143,7 @@ const Slide1 = styled.div`
   }
 `;
 
-const Container = styled.div`
-  background-image: url("../img/banner1_bg.svg");
-`;
+const Container = styled.div``;
 
 const Catchphrase = styled.h3`
   color: #fff;
@@ -147,12 +152,13 @@ const Catchphrase = styled.h3`
   text-align: right;
   font-size: 46px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   line-height: normal;
   width: 560px;
   float: right;
   margin-top: 140px;
   margin-bottom: 10px;
+  margin-left: 24px;
 `;
 
 const Description = styled.p`
