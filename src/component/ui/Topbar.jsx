@@ -4,6 +4,7 @@ import { BsSearch } from "react-icons/bs";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import logo from "../img/logo.svg";
+import { useMediaQuery } from 'react-responsive';
 
 const Bar = styled.div`
   background: #fff;
@@ -18,7 +19,7 @@ const Bar = styled.div`
 `;
 const NavContainer = styled.div`
   display: flex;
-  margin-top: 15px;
+  margin-top: 10px;
 `;
 const Navi = styled.div`
   font-weight: 600;
@@ -30,23 +31,23 @@ const Navi = styled.div`
 const Line = styled(motion.hr)`
   border: 0;
   height: 4px;
-  background: #ad88eb;
+  background-color: #AD88EB;
   margin-top: 27px;
+  opacity: 1;
   border-radius: 50px;
   transition: all ease 0.3s;
 `;
 const SearchContainer = styled.div`
   display: flex;
-  line-height: 75px;
+  line-height: 17px;
   border-radius: 50px;
   border: solid 1.5px #959393;
-  height: 20px;
   padding: 10px 0px 10px 20px;
-  width: 650px;
+  width: 40vw;
 `;
 const Search = styled.input`
   border: none;
-  width: 600px;
+  width: 38vw;
   outline: none;
   margin-right: 10px;
 
@@ -71,10 +72,11 @@ const LogoImg = styled.div`
 `;
 const LogoNaviContainer = styled.div`
   display: flex;
-  margin-top: 25px;
+  margin-top: 30px;
 `;
 
 const Topbar = () => {
+  const isDesktop = useMediaQuery({ minWidth: 1300 });
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -88,7 +90,7 @@ const Topbar = () => {
       <LogoNaviContainer
         style={
           location.pathname === "/" || location.pathname === "/login"
-            ? { marginBottom: "28px" }
+            ? { marginBottom: "35.7px" }
             : {}
         }
       >
@@ -101,7 +103,7 @@ const Topbar = () => {
             {location.pathname !== "/login" &&
               location.pathname !== "/" &&
               location.pathname === "/apply" && (
-                <Line initial={{ scale: 0 }} animate={{ scale: 1 }} />
+                <Line style={{background:"AD88EB"}}initial={{ scale: 0 }} animate={{ scale: 1 }} />
               )}
           </Navi>
           <Navi onClick={() => navigate("/my")}>
@@ -114,7 +116,7 @@ const Topbar = () => {
           </Navi>
         </NavContainer>
       </LogoNaviContainer>
-      <SearchContainer>
+      {isDesktop? <SearchContainer>
         <Search
           type="text"
           value={search}
@@ -124,7 +126,7 @@ const Topbar = () => {
         <StyledButton>
           <BsSearch />
         </StyledButton>
-      </SearchContainer>
+      </SearchContainer> : <div/>}
       <ButtonContainer>
         <StyledButton
           onClick={() => {
