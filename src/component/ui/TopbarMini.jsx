@@ -58,7 +58,7 @@ const LogoNaviContainer = styled.div`
   margin-top: 25px;
 `;
 
-const TopbarMini = () => {
+const TopBarMini = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -88,4 +88,4 @@ const TopbarMini = () => {
 
 
 
-export default TopbarMini;
+export default TopBarMini;

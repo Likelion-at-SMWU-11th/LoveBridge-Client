@@ -2,7 +2,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import styled from 'styled-components';
 import Topbar from './component/ui/Topbar';
-import TopbarMini from "./component/ui/TopBarMini";
+import TopBarMini from "./component/ui/TopBarMini";
 import LoginPage from './component/page/LoginPage';
 import MainPage from './component/page/MainPage';
 import ApplyPage from './component/page/ApplyPage';
@@ -24,7 +24,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-    {isDesktop? <Topbar /> : <TopbarMini/>}
+    {isDesktop? <Topbar /> : <TopBarMini/>}
     <Page>
       <Routes>
         <Route path='/' element={<MainPage />}/>
