@@ -15,7 +15,7 @@ const Bar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 10;
+  z-index: 100;
 `;
 const NavContainer = styled.div`
   display: flex;

@@ -266,7 +266,7 @@ const Headline = styled.div`
   color: #fff;
   font-family: Noto Sans;
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 700;
   margin-left: 80px;
   margin-top: 60px;
   > p {

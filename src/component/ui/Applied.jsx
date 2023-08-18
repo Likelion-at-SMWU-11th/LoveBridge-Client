@@ -35,10 +35,10 @@ const State = styled.div`
     width: 198.219px;
     color: #fff;
     text-align: center;
+    letter-spacing: 0px;
     padding: 8px 0;
-    font-size: 20px;
+    font-size: 23px;
     font-weight: 500;
-    letter-spacing: 2.5px;
     margin-bottom: 10px;
 `
 const Cancel = styled.button`
@@ -49,9 +49,8 @@ const Cancel = styled.button`
     color: #4F4F4F;
     text-align: center;
     padding: 8px 0;
-    font-size: 20px;
+    font-size: 23px;
     font-weight: 500;
-    letter-spacing: 2.5px;
     cursor: pointer;
     
     &:hover {
@@ -61,7 +60,7 @@ const Cancel = styled.button`
 `
 
 function Applied(props) {
-    const { title, district, agency, onClick } = props;
+    const { title, district, process, onClick } = props;
   return (
     <ListContainer>
         <InfoContainer>
@@ -69,7 +68,7 @@ function Applied(props) {
             <District>{district || "OO시 OO구"}</District>
         </InfoContainer>
         <BtnContainer>
-            <State>심사 중</State>
+            <State>{process}</State>
             <Cancel onClick={onClick}>신청취소</Cancel>
         </BtnContainer>
     </ListContainer>

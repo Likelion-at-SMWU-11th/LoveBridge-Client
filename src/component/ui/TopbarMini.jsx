@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { BsSearch } from "react-icons/bs";
 import { useNavigate, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import logo from "../img/logo.svg";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -28,6 +30,14 @@ const Navi = styled.div`
   font-size: 1.1em;
   cursor: pointer;
   margin-right: 40px;
+`;
+const Line = styled(motion.hr)`
+  border: 0;
+  height: 4px;
+  background: #ad88eb;
+  margin-top: 27px;
+  border-radius: 50px;
+  transition: all ease 0.3s;
 `;
 const DropdownContainer = styled.div`
   margin-right: 75px;
