@@ -8,6 +8,7 @@ import naver from '../img/naver-logo.svg';
 import logo from '../img/logo.svg';
 import {motion} from 'framer-motion';
 import { useMediaQuery } from 'react-responsive';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
 padding: 100px 136px 0px 123px;
@@ -94,6 +95,7 @@ const hoverVariants = {
 
 function LoginPage() {
     const isDesktop = useMediaQuery({ minWidth: 1000 });
+    const navigate = useNavigate();
     
   return (
     <>
@@ -103,9 +105,9 @@ function LoginPage() {
             <LoginContainer>
             <Line/>
                 <BtnContainer>
-                    <KaKaO ><StyledButton whileHover={["grow"]} variants={hoverVariants}><img src={kako}/>카카오 로그인</StyledButton></KaKaO>
-                    <Google><StyledButton whileHover={["grow"]} variants={hoverVariants}><img src={google}/>구글 로그인</StyledButton></Google>
-                    <Naver><StyledButton whileHover={["grow"]} variants={hoverVariants}><img src={naver}/>네이버 로그인</StyledButton></Naver>
+                    <KaKaO onClick={() => navigate('http://127.0.0.1:8000/accounts/login/kakao/')}><StyledButton whileHover={["grow"]} variants={hoverVariants}><img src={kako}/>카카오 로그인</StyledButton></KaKaO>
+                    <Google onClick={() => navigate('http://127.0.0.1:8000/accounts/login/google/')}><StyledButton whileHover={["grow"]} variants={hoverVariants}><img src={google}/>구글 로그인</StyledButton></Google>
+                    <Naver onClick={() => navigate('http://127.0.0.1:8000/accounts/login/naver/')}><StyledButton whileHover={["grow"]} variants={hoverVariants}><img src={naver}/>네이버 로그인</StyledButton></Naver>
                 </BtnContainer>
             </LoginContainer>
     </Wrapper>

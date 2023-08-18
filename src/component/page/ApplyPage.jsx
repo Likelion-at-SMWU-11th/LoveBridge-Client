@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive';
 
 import PagePath from "../ui/PagePath";
@@ -33,6 +33,7 @@ const Info = styled.div`
 const SelectBox = styled.div`
   border: 0.973px solid rgba(0, 0, 0, 0.2);
   padding: 30px 45px 60px 45px;
+  background: #F4F2FB;
 `;
 const PuppleTxt = styled.div`
   color: #ad88eb;
@@ -178,12 +179,15 @@ let sortOption = [
   { value: "인기순", label: "인기순" },
   { value: "마감임박순", label: "마감임박순" },
 ]
+const defaultSort = sortOption[0];
 
 function ApplyPage() {
   const isDesktop = useMediaQuery({ minWidth: 750 });
   const navigate = useNavigate();
+  const location = useLocation();
+  const [invalidated, setInvalidated] = useState(0);
 
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(30);
   const [region, setRegion] = useState("");
   const [ region2, setRegion2 ] = useState("");
   const [category, setCategory] = useState("");
@@ -237,28 +241,57 @@ function ApplyPage() {
   }; // 초기화 기능
 
   const confirmApply = (e, Id) => {
+    console.log(e.target);
     var programName = e.target.parentElement.parentElement.children[2].textContent;
     console.log(Id);
     //var Id = e.target
     if (window.confirm(`[${programName}] 정말 신청하시겠습니까?`)) {
       axios.post(`http://127.0.0.1:8000/programs/list/${Id}/`)
-      alert(`[${programName}] 신청이 완료되었습니다 `);
+      alert(`[${programName}] 신청이 완료되었습니다. \n 마이페이지의 내가 신청한 프로그램 페이지로 이동합니다. `);
+      navigate('/my/apply');
     } else {
       alert("취소합니다.");
     }
     
   }; // 신청 시 alert
 
-  const handleLike = (e, Id, iflike) => {
-    console.log(Id, iflike);
+  const handleLike = (e, Id, iflike, like) => {
+    var programName = e.target.parentElement.parentElement.parentElement.parentElement.children[2].textContent;
     if (iflike === true) {
-      console.log("좋아요 삭제");
+      if (window.confirm(`[${programName}] 찜을 취소하시겠습니까?`)) {
+        axios.post(`http://127.0.0.1:8000/programs/mylike/${Id}/`, {
+          iflike: iflike,
+        })
+        alert(`[${programName}] 찜이 취소되었습니다.`);
+        window.location.reload();
+      } else {
+        alert("아직 찜 상태입니다.");
+      }
     } else {
-      console.log("좋아요 등록");
+      if (window.confirm(`[${programName}] 찜하시겠습니까?`)) {
+        axios.post(`http://127.0.0.1:8000/programs/mylike/${Id}/`, {
+          iflike: iflike,
+        })
+        alert(`[${programName}] 찜 목록에 저장되었습니다. \n 마이페이지의 내가 찜한 목록 페이지로 이동합니다.`);
+        navigate('/my/like');
+        // setEditedCards(prevEditedCards => ({
+        //   ...prevEditedCards,
+        //   [Id]: {
+        //     ...prevEditedCards[Id],
+        //     ['like']: like+1,
+        //   },
+        // }));
+      } else {
+        alert("취소합니다.");
+      }
     }
   } // 좋아요 handle
 
+  const [applyCards, setApplyCards] = useState([]);
+  const [editedCards, setEditedCards] = useState({});
+
   const handleSearch = () => {
+    console.log(region+' '+region2, category, sort)
     axios.post(`http://127.0.0.1:8000/programs/search/`, {
       district: region+' '+region2, 
       category: category, 
@@ -270,30 +303,14 @@ function ApplyPage() {
       setRegion2('');
       setCategory('');
       setSort('');
-    })
-    .catch(error => {
-      console.error('Error handle search: ', error);
-    });
-    navigate('/apply');
-};
-
-const [applyCards, setApplyCards] = useState([]);
-
-useEffect(() => {
-  fetchApplyCards();
-}, []);
-
-const fetchApplyCards = () => {
-  axios.get('http://127.0.0.1:8000/programs/list/')
-  .then(response => {
-    setApplyCards(response.data);
+      setApplyCards(response.data);
     console.log(response.data);
     for ( var i = 0; i < response.data.length; i++) {
       applyCards[i] = { 
             id: response.data[i].id,
             title: response.data[i].title,
             district: response.data[i].district,
-            image: response.data[i].image,
+            image: 'http://127.0.0.1:8000/'+response.data[i].image,
             agency: response.data[i].agency,
             deadline_yy: response.data[i].deadline_yy,
             deadline_mm: response.data[i].deadline_mm,
@@ -302,17 +319,59 @@ const fetchApplyCards = () => {
             category1: response.data[i].category1,
             category2: response.data[i].category2,
             applicant: response.data[i].applicant,
-            //applicants: response.data[i].applicants,
             like: response.data[i].like,
             iflike: response.data[i].iflike,
             // userid: card.userid, 
           };
-    };
-  })
-  .catch(error => {
-    console.error('Error fetching cards: ', error);
-  });
-  console.log('applycards',applyCards);
+      }
+      setTotal(response.data.length);
+    })
+    .catch(error => {
+      console.error('Error handle search: ', error);
+    });
+    console.log(applyCards);
+    setTotal(applyCards.length);
+    console.log('검색 성공');
+};
+
+useEffect(() => {
+  fetchApplyCards();
+}, []);
+
+var bridge = [];
+
+const fetchApplyCards = () => {
+  axios.get('http://127.0.0.1:8000/programs/list/')
+    .then(response => {
+      setApplyCards(response.data);
+      console.log(applyCards);
+      const initialEditedCards = {};
+      response.data.forEach(item => {
+        const fullImageUrl = `http://127.0.0.1:8000${item.image}`;
+        initialEditedCards[item.id] = {
+          id: item.id,
+          title: item.title,
+          district: item.district,
+          image: fullImageUrl,
+          agency: item.agency,
+          deadline_yy: item.deadline_yy,
+          deadline_mm: item.deadline_mm,
+          deadline_dd: item.deadline_dd,
+          phone: item.phone,
+          category1: item.category1,
+          category2: item.category2,
+          applicant: item.applicant,
+          like: item.like,
+          iflike: item.iflike,
+        }
+      });
+      console.log(initialEditedCards);
+      setEditedCards(initialEditedCards);
+      console.log(editedCards);
+    })
+    .catch(error => {
+      console.error('Error fetching cards: ', error);
+    });
 };
 
   return (
@@ -386,6 +445,7 @@ const fetchApplyCards = () => {
               <SortSelect
                 className="react-select-container"
                 placeholder=""
+                value={defaultSort}
                 onChange={(e) => {
                   if (e) {
                     setSort(e.value);
@@ -428,18 +488,19 @@ const fetchApplyCards = () => {
           {applyCards && applyCards.map(card => (
             <div key={card.id} className='card-div'>
               <ApplyCard
-                title={card.title}
-                agency={card.agency}
-                deadline={card.deadline_yy+'.'+card.deadline_mm+'.'+card.deadline_dd}
-                district={card.district}
-                phone={card.phone}
-                like={card.like}
-                iflike={card.iflike}
-                tag1={card.category1}
-                tag2={card.category2}
-                applicants={card.applicant+'명'}
+                title={editedCards[card.id]?.title}
+                image={editedCards[card.id]?.image}
+                agency={editedCards[card.id]?.agency}
+                deadline={editedCards[card.id]?.deadline_yy+'.'+editedCards[card.id]?.deadline_mm+'.'+editedCards[card.id]?.deadline_dd}
+                district={editedCards[card.id]?.district}
+                tel={editedCards[card.id]?.phone}
+                like={editedCards[card.id]?.like}
+                iflike={editedCards[card.id]?.iflike}
+                tag1={editedCards[card.id]?.category1}
+                tag2={editedCards[card.id]?.category2}
+                applicants={editedCards[card.id]?.applicant+'명'}
                 onClickApply={(e) => confirmApply(e, card.id)}
-                onClickLike={(e) => handleLike(e, card.id, card.iflike)}
+                onClickLike={(e) => handleLike(e, card.id, card.iflike, card.like)}
               />
             </div>
           ))}
@@ -463,15 +524,6 @@ const fetchApplyCards = () => {
           /> 
         ))}*/}
       </CardContainer>
-      <Pagination
-        activePage={page}
-        itemsCountPerPage={4}
-        totalItemsCount={30}
-        pageRangeDisplayed={5}
-        prevPageText={"‹"}
-        nextPageText={"›"}
-        onChange={handlePageChange}
-      />
     </Wrapper>
     :
     <MobileWrapper>
@@ -585,18 +637,19 @@ const fetchApplyCards = () => {
           {applyCards && applyCards.map(card => (
             <div key={card.id} className='card-div'>
               <ApplyCard
-                title={card.title}
-                agency={card.agency}
-                deadline={card.deadline_yy+'.'+card.deadline_mm+'.'+card.deadline_dd}
-                district={card.district}
-                phone={card.phone}
-                like={card.like}
-                iflike={card.iflike}
-                tag1={card.category1}
-                tag2={card.category2}
-                applicants={card.applicant+'명'}
+                title={editedCards[card.id]?.title}
+                image={editedCards[card.id]?.image}
+                agency={editedCards[card.id]?.agency}
+                deadline={editedCards[card.id]?.deadline_yy+'.'+editedCards[card.id]?.deadline_mm+'.'+editedCards[card.id]?.deadline_dd}
+                district={editedCards[card.id]?.district}
+                tel={editedCards[card.id]?.phone}
+                like={editedCards[card.id]?.like}
+                iflike={editedCards[card.id]?.iflike}
+                tag1={editedCards[card.id]?.category1}
+                tag2={editedCards[card.id]?.category2}
+                applicants={editedCards[card.id]?.applicant+'명'}
                 onClickApply={(e) => confirmApply(e, card.id)}
-                onClickLike={(e) => handleLike(e, card.id, card.iflike)}
+                onClickLike={(e) => handleLike(e, card.id, card.iflike, card.like)}
               />
             </div>
           ))}
