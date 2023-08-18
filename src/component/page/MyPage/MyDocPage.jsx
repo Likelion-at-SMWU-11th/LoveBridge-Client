@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import PagePath from '../../ui/PagePath';
 import fileicon from '../../img/file.svg';
@@ -142,56 +142,65 @@ function MyDocPage() {
 
     const handleChangeFamliy = (e) => {
         setFamily(e.target);
-        setFamilyname(e.target.files[0]);
+        setFamilyname(e.target.files[0].name);
     }
     const handleChangeId = (e) => {
         setId(e.target);
-        setIdname(e.target.files[0]);
+        setIdname(e.target.files[0].name);
     }
     const handleChangeRegist = (e) => {
         setRegist(e.target);
-        setRegistname(e.target.files[0]);
+        setRegistname(e.target.files[0].name);
     }
     const handleChangeGov = (e) => {
         setGov(e.target);
-        setGovname(e.target.files[0]);
+        setGovname(e.target.files[0].name);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmit(true);
-        if (family === "" || id === "" || regist === "" || gov === "") {
+        if (familyname === "" || idname === "" || registname === "" || govname === "") {
             setValid(false);
             window.scrollTo({ top: 0, behavior: "smooth" });  
         } else {
             setValid(true);
-            axios.post('http://127.0.0.1:8000/mypage/documents/', {
-                file1: family,
-                file2: id,
-                file3: regist,
-                file4: gov
+            console.log(familyname);
+            axios.post('http://127.0.0.1:8000/mypage/mydocuments/', {
+                file1: familyname,
+                file2: idname,
+                file3: registname,
+                file4: govname
             }).then(response => {
                 console.log(response);
             })
             .catch(error => {
                 console.error('Error handle search: ', error);
             });
+            console.log(familyname.name,idname.name)
             navigate('/my/doc/save');
         }
     } // 보내기
 
     const fetchMyDoc = () => {
-        axios.get('http://127.0.0.1:8000/mydocuments/')
-        .then(response => {
-            setFamily(response.data);
-            setId(response.data);
-            setRegist(response.data);
-            setGov(response.data);
-        })
+        console.log("성공");
+        axios.get('http://127.0.0.1:8000/mypage/mydocuments/') 
+        .then(response => (
+            console.log(response.data),
+            setFamilyname(response.data[0].file1),
+            setIdname(response.data[0].file2),
+            setRegistname(response.data[0].file3),
+            setGovname(response.data[0].file4)
+        ))
         .catch(error => {
             console.log("Error fetching documents: ", error);
         });
+        console.log(familyname);
     }; // 받기
+
+    useEffect(() => {
+        fetchMyDoc();
+      }, []);
 
   return (
     <>
@@ -204,7 +213,7 @@ function MyDocPage() {
             <GreyZone><Txt>서류명</Txt><DocName>가족관계증명서</DocName></GreyZone>
                 <FileContainer>
                     <div style={{display: 'flex'}}>
-                    <input type="text" className="file-name" value={familyname.name} disabled="disabled" style={{border: submit && !valid && family === ""? '1px solid red':''}}></input>
+                    <input type="text" className="file-name" value={familyname.length > 0 === true? familyname : familyname.name} disabled="disabled" style={{border: submit && !valid && family === ""? '1px solid red':''}}></input>
                     {submit && !valid && family === "" && <Validation>필수 자료입니다.</Validation>}</div>
                     <label for="family-relation" className="file-label">파일 선택<img src={plusicon}/></label>
                     <input type="file" name="" id="family-relation" class="file-upload" onChange={handleChangeFamliy} />
@@ -214,7 +223,7 @@ function MyDocPage() {
             <GreyZone><Txt>서류명</Txt><DocName>주민등록등본</DocName></GreyZone>
                 <FileContainer>
                     <div style={{display: 'flex'}}>
-                    <input type="text" readonly="readonly" className="file-name" value={idname.name} disabled="disabled" style={{border: submit && !valid && id === ""? '1px solid red':''}}/>
+                    <input type="text" readonly="readonly" className="file-name" value={idname.length > 0 === true? idname : idname.name} disabled="disabled" style={{border: submit && !valid && id === ""? '1px solid red':''}}/>
                     {submit && !valid && id === "" && <Validation>필수 자료입니다.</Validation>}</div>
                     <label for="id-card" class="file-label">파일 선택<img src={plusicon}/></label>
                     <input type="file" name="" id="id-card" className="file-upload" onChange={handleChangeId} />
@@ -224,7 +233,7 @@ function MyDocPage() {
             <GreyZone><Txt>서류명</Txt><DocName>장애인등록증</DocName></GreyZone>
                 <FileContainer>
                     <div style={{display: 'flex'}}>
-                    <input type="text" readonly="readonly" className="file-name" value={registname.name} disabled="disabled" style={{border: submit && !valid && regist === ""? '1px solid red':''}}/>
+                    <input type="text" readonly="readonly" className="file-name" value={registname.length > 0 === true? registname : registname.name} disabled="disabled" style={{border: submit && !valid && regist === ""? '1px solid red':''}}/>
                     {submit && !valid && regist === "" && <Validation>필수 자료입니다.</Validation>}</div>
                     <label for="disable-regist" className="file-label">파일 선택<img src={plusicon}/></label>
                     <input type="file" name="" id="disable-regist" className="file-upload" onChange={handleChangeRegist}/>
@@ -234,7 +243,7 @@ function MyDocPage() {
             <GreyZone><Txt>서류명</Txt><DocName>정부기관 심사결과지</DocName></GreyZone>
                 <FileContainer>
                     <div style={{display: 'flex'}}>
-                    <input type="text" readonly="readonly" class="file-name" value={govname.name} disabled="disabled" style={{border: submit && !valid && gov === ""? '1px solid red':''}}/>
+                    <input type="text" readonly="readonly" class="file-name" value={govname.length > 0 === true? govname : govname.name} disabled="disabled" style={{border: submit && !valid && gov === ""? '1px solid red':''}}/>
                     {submit && !valid && gov === "" && <Validation>필수 자료입니다.</Validation>}</div>
                     <label for="gov-result" class="file-label">파일 선택<img src={plusicon}/></label>
                     <input type="file" name="" id="gov-result" class="file-upload" onChange={handleChangeGov} />
@@ -251,7 +260,7 @@ function MyDocPage() {
             <MobileGreyZone><MobileTxt>서류명</MobileTxt><MobileDocName>가족관계증명서</MobileDocName></MobileGreyZone>
                 <MobileFileContainer>
                     <div>
-                    <input type="text" className="file-name" value={familyname.name} disabled="disabled" style={{border: submit && !valid && family === ""? '1px solid red':''}}></input>
+                    <input type="text" className="file-name" value={familyname.length > 0 === true? familyname : familyname.name} disabled="disabled" style={{border: submit && !valid && family === ""? '1px solid red':''}}></input>
                     {submit && !valid && family === "" && <MobileValidation>필수 자료입니다.</MobileValidation>}</div>
                     <label for="family-relation" className="file-label">파일 선택<img src={plusicon}/></label>
                     <input type="file" name="" id="family-relation" class="file-upload" onChange={handleChangeFamliy} />
@@ -261,7 +270,7 @@ function MyDocPage() {
             <MobileGreyZone><MobileTxt>서류명</MobileTxt><MobileDocName>주민등록등본</MobileDocName></MobileGreyZone>
                 <MobileFileContainer>
                     <div>
-                    <input type="text" readonly="readonly" className="file-name" value={idname.name} disabled="disabled" style={{border: submit && !valid && id === ""? '1px solid red':''}}/>
+                    <input type="text" readonly="readonly" className="file-name" value={idname.length > 0 === true? idname : idname.name} disabled="disabled" style={{border: submit && !valid && id === ""? '1px solid red':''}}/>
                     {submit && !valid && id === "" && <MobileValidation>필수 자료입니다.</MobileValidation>}</div>
                     <label for="id-card" class="file-label">파일 선택<img src={plusicon}/></label>
                     <input type="file" name="" id="id-card" className="file-upload" onChange={handleChangeId} />
@@ -271,7 +280,7 @@ function MyDocPage() {
             <MobileGreyZone><MobileTxt>서류명</MobileTxt><MobileDocName>장애인등록증</MobileDocName></MobileGreyZone>
                 <MobileFileContainer>
                     <div>
-                    <input type="text" readonly="readonly" className="file-name" value={registname.name} disabled="disabled" style={{border: submit && !valid && regist === ""? '1px solid red':''}}/>
+                    <input type="text" readonly="readonly" className="file-name" value={registname.length > 0 === true? registname : registname.name} disabled="disabled" style={{border: submit && !valid && regist === ""? '1px solid red':''}}/>
                     {submit && !valid && regist === "" && <MobileValidation>필수 자료입니다.</MobileValidation>}</div>
                     <label for="disable-regist" className="file-label">파일 선택<img src={plusicon}/></label>
                     <input type="file" name="" id="disable-regist" className="file-upload" onChange={handleChangeRegist}/>
@@ -281,7 +290,7 @@ function MyDocPage() {
             <MobileGreyZone><MobileTxt>서류명</MobileTxt><MobileDocName>정부기관 심사결과지</MobileDocName></MobileGreyZone>
                 <MobileFileContainer>
                     <div>
-                    <input type="text" readonly="readonly" class="file-name" value={govname.name} disabled="disabled" style={{border: submit && !valid && gov === ""? '1px solid red':''}}/>
+                    <input type="text" readonly="readonly" class="file-name" value={govname.length > 0 === true? govname : govname.name} disabled="disabled" style={{border: submit && !valid && gov === ""? '1px solid red':''}}/>
                     {submit && !valid && gov === "" && <Validation>필수 자료입니다.</Validation>}</div>
                     <label for="gov-result" class="file-label">파일 선택<img src={plusicon}/></label>
                     <input type="file" name="" id="gov-result" class="file-upload" onChange={handleChangeGov} />

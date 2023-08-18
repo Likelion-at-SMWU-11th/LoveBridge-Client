@@ -19,7 +19,8 @@ const StepLine = styled.div`
   justify-content: space-between;
   padding: 40px 150px 40px 150px;
 `;
-const Step = styled.div``;
+const Step = styled.div`
+`;
 const Txt = styled.div`
   font-size: 18px;
   text-align: center;
@@ -43,13 +44,14 @@ function MyApplyPage() {
       .then((response) => {
         setApplied(response.data);
         console.log(response.data);
-        for (var i = 0; i < response.data.length; i++) {
+        for ( var i = 0; i < response.data.length; i++) {
           applied[i] = {
             id: response.data[i].id,
             title: response.data[i].title,
             district: response.data[i].district,
-          };
-        }
+            process: response.data[i].process
+          }
+        };
         console.log(applied);
       })
       .catch((error) => {
@@ -76,6 +78,7 @@ function MyApplyPage() {
       alert("아직 신청 상태입니다.");
     }
   };
+
 
   return (
     <>
@@ -110,6 +113,7 @@ function MyApplyPage() {
             key={program.id}
             title={program.title}
             district={program.district}
+            process={program.process}
             onClick={(e) => cancelApply(e, program.id)}
           />
         ))}
@@ -146,7 +150,7 @@ function MyApplyPage() {
             key={program.id}
             title={program.title}
             district={program.district}
-            onClick={(e) => cancelApply(e)}
+            onClick={(e) => cancelApply(e, program.id)}
           />
         ))}
       </div>
