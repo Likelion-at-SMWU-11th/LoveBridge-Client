@@ -12,7 +12,8 @@ import axios from "axios";
 const Hot = () => {
   const prevArrow = useCallback(() => slickRef.current.slickPrev(), []);
   const nextArrow = useCallback(() => slickRef.current.slickNext(), []);
-  const [ hotCard, setHotCard ] = useState([]);
+  const [applyCards, setApplyCards] = useState([]);
+  const [editedCards, setEditedCards] = useState({});
 
   useEffect(() => {
     fetchHotCards();
@@ -21,31 +22,24 @@ const Hot = () => {
   const fetchHotCards = () => { 
     axios.get('http://127.0.0.1:8000/programs/popular/')
     .then(response => {
-      setHotCard(response.data);
-      console.log(response.data);
-      for ( var i = 0; i < response.data.length; i++) {
-        console.log(response.data[i]);
-        hotCard[i] = { 
-              id: response.data[i].id,
-              title: response.data[i].title,
-              district: response.data[i].district,
-              image: response.data[i].image,
-              // userid: card.userid, 
-            };
-      }; 
-    // response.data.forEach(program => {
-    //   hotCard[program.id] = { 
-    //     title: program.title,
-    //     district: program.district,
-    //     image: program.image,
-    //     // userid: card.userid, 
-    //   };
-    // });
-    console.log(hotCard);
-  })
-  .catch(error => {
-    console.error('Error fetching cards: ', error);
-  });
+      setApplyCards(response.data);
+      const initialEditedCards = {};
+      response.data.forEach(item => {
+        const fullImageUrl = `http://127.0.0.1:8000${item.image}`;
+        initialEditedCards[item.id] = {
+          id: item.id,
+          title: item.title,
+          district: item.district,
+          image: fullImageUrl,
+        }
+      });
+      console.log(initialEditedCards);
+      setEditedCards(initialEditedCards);
+      console.log(editedCards);
+    })
+    .catch(error => {
+      console.error('Error fetching cards: ', error);
+    });
 };
 
   const settings = {
@@ -78,21 +72,18 @@ const Hot = () => {
       </Header>
       <Wrap>
         <Slider ref={slickRef} {...settings}>
-        {hotCard.map(hot => (
+        {applyCards.map(hot => (
             <Item key={hot.id}>
-              <Img src={hot.image}></Img>
-              <Title>{hot.title}</Title>
-              <Address>{hot.district}</Address>
+              <Img src={editedCards[hot.id]?.image}></Img>
+              <Title>{editedCards[hot.id]?.title}</Title>
+              <Address>{editedCards[hot.id]?.district}</Address>
             </Item>
           ))}
           {/* {Dummy.hot.map((hot) => (
             <Item key={hot.id}>
               <Img src={hot.img}></Img>
               <Title>{hot.title}</Title>
-              <Info>
-                <Address>{hot.address}</Address>
-                <button>신청</button>
-              </Info>
+              <Address>{hot.address}</Address>
             </Item>
           ))} */}
         </Slider>
@@ -157,8 +148,8 @@ const Wrap = styled.div`
 const Item = styled.div`
   display: flex;
   flex-direction: column;
-  width: 240px !important;
-  height: 260px;
+  width: 270px !important;
+  height: 300px;
   padding: 16px 16px;
   margin-left: 0px;
   margin-right: 0px;
@@ -170,10 +161,11 @@ const Item = styled.div`
 `;
 
 const Img = styled.img`
-  width: 240px;
+  width: 235px;
   margin-right: 0px !important;
   flex-shrink: 0;
   border-radius: 30px;
+  margin-bottom: 20px;
 `;
 
 const Title = styled.h3`
@@ -184,29 +176,9 @@ const Title = styled.h3`
   font-weight: 700;
   line-height: normal;
   width: 240px;
-  margin-left: 5px;
+  margin-left: 7px;
   margin-right: 0px !important;
   margin-bottom: 10px;
-`;
-
-const Info = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: 5px;
-  button {
-    border-radius: 6px;
-    border: 1px solid #fff;
-    background: #6d6f82;
-    width: fit-content;
-    color: #fff;
-    font-weight: 300;
-    width: 74px;
-    height: 30px;
-    margin-right: 8px;
-    margin-top: 3px;
-  }
 `;
 
 const Address = styled.p`
@@ -217,8 +189,8 @@ const Address = styled.p`
   font-weight: 400;
   line-height: normal;
   width: 240px;
+  margin-left: 7px;
   margin-right: 0px !important;
-  margin: 3px 0px;
 `;
 
 const PrevBtn = styled.button`
