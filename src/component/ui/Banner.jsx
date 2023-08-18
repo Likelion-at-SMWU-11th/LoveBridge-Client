@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Banner1_img from "../img/banner1_img.svg";
-import Banner2_img from "../img/banner2_img.svg";
+import Banner2_img from "../img/banner2_img.png";
 import Highlight from "../img/Rectangle 146.svg";
 import Banner3_bg from "../img/banner3_bg.svg";
 import Play from "../img/play.svg";
