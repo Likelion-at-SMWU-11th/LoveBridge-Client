@@ -165,7 +165,7 @@ function MyDocPage() {
             window.scrollTo({ top: 0, behavior: "smooth" });  
         } else {
             setValid(true);
-            console.log(familyname);
+            console.log(family,id);
             axios.post('http://127.0.0.1:8000/mypage/mydocuments/', {
                 file1: familyname,
                 file2: idname,
@@ -177,7 +177,6 @@ function MyDocPage() {
             .catch(error => {
                 console.error('Error handle search: ', error);
             });
-            console.log(familyname.name,idname.name)
             navigate('/my/doc/save');
         }
     } // 보내기
