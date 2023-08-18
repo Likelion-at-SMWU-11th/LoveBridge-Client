@@ -13,6 +13,7 @@ import MyLikePage from './component/page/MyPage/MyLikePage';
 import SaveDocPage from "./component/page/MyPage/SaveDocPage";
 import { createGlobalStyle } from "styled-components";
 import { useMediaQuery } from 'react-responsive';
+import Footbar from "./component/ui/Footbar";
 
 const Page = styled.div`
   margin-top: 80px;
@@ -36,6 +37,7 @@ function App() {
         <Route path='/my/like' element={<MyLikePage />}/>
       </Routes>
     </Page>
+    <Footbar/>
     </>
   );
 }
