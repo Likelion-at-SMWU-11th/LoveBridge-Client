@@ -39,7 +39,7 @@ function MyApplyPage() {
 
   const fetchAppliedPrograms = () => {
     axios
-      .get("http://3.145.34.191:8080/mypage/myprograms/")
+      .get("http://127.0.0.1:8000/mypage/myprograms/")
       .then((response) => {
         setApplied(response.data);
         console.log(response.data);
@@ -63,7 +63,7 @@ function MyApplyPage() {
       e.target.parentElement.parentElement.children[0].children[0].textContent;
     if (window.confirm(`[${programName}] 정말 취소하시겠습니까?`)) {
       axios
-        .delete(`http://3.145.34.191:8080/mypage/myprograms/${id}/`)
+        .delete(`http://127.0.0.1:8000/mypage/myprograms/${id}/`)
         .then((response) => {
           fetchAppliedPrograms();
         })

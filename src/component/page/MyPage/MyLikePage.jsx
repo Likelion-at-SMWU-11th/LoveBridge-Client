@@ -42,13 +42,13 @@ useEffect(() => {
 }, [likeCards]);
 
 const fetchLikeCards = () => {
-  axios.get('http://3.145.34.191:8080/mypage/mylike/')
+  axios.get('http://127.0.0.1:8000/mypage/mylike/')
     .then(response => {
       setLikeCards(response.data);
       console.log(likeCards);
       const initialEditedCards = {};
       response.data.forEach(item => {
-        const fullImageUrl = `http://3.145.34.191:8080${item.program.image}`;
+        const fullImageUrl = `http://127.0.0.1:8000${item.program.image}`;
         initialEditedCards[item.program.id] = {
           id: item.program.id,
           title: item.program.title,
@@ -111,7 +111,7 @@ const confirmApply = (e, Id) => {
   console.log(Id);
   //var Id = e.target
   if (window.confirm(`[${programName}] 정말 신청하시겠습니까?`)) {
-    axios.post(`http://3.145.34.191:8080/programs/list/${Id}/`)
+    axios.post(`http://127.0.0.1:8000/programs/list/${Id}/`)
     alert(`[${programName}] 신청이 완료되었습니다. \n 마이페이지의 내가 신청한 프로그램 페이지로 이동합니다. `);
     navigate('/my/apply');
   } else {
@@ -124,7 +124,7 @@ const handleLike = (e, Id, iflike) => {
   console.log(iflike);
   var programName = e.target.parentElement.parentElement.parentElement.parentElement.children[2].textContent;
     if (window.confirm(`[${programName}] 찜을 취소하시겠습니까?`)) {
-      axios.post(`http://3.145.34.191:8080/programs/mylike/${Id}/`, {
+      axios.post(`http://127.0.0.1:8000/programs/mylike/${Id}/`, {
         iflike: iflike,
       })
       alert(`[${programName}] 찜이 취소되었습니다.`);

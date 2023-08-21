@@ -257,7 +257,7 @@ function ApplyPage() {
     console.log(Id);
     //var Id = e.target
     if (window.confirm(`[${programName}] 정말 신청하시겠습니까?`)) {
-      axios.post(`http://3.145.34.191:8080/programs/list/${Id}/`)
+      axios.post(`http://127.0.0.1:8000/programs/list/${Id}/`)
       alert(`[${programName}] 신청이 완료되었습니다. \n 마이페이지의 내가 신청한 프로그램 페이지로 이동합니다. `);
       navigate('/my/apply');
     } else {
@@ -270,7 +270,7 @@ function ApplyPage() {
     var programName = e.target.parentElement.parentElement.parentElement.parentElement.children[2].textContent;
     if (iflike === true) {
       if (window.confirm(`[${programName}] 찜을 취소하시겠습니까?`)) {
-        axios.post(`http://3.145.34.191:8080/programs/mylike/${Id}/`, {
+        axios.post(`http://127.0.0.1:8000/programs/mylike/${Id}/`, {
           iflike: iflike,
         })
         alert(`[${programName}] 찜이 취소되었습니다.`);
@@ -280,14 +280,14 @@ function ApplyPage() {
       }
     } else {
       if (window.confirm(`[${programName}] 찜하시겠습니까?`)) {
-        axios.post(`http://3.145.34.191:8080/programs/mylike/${Id}/`, {
+        axios.post(`http://127.0.0.1:8000/programs/mylike/${Id}/`, {
           iflike: iflike,
         })
         alert(`[${programName}] 찜 목록에 저장되었습니다. \n 마이페이지의 내가 찜한 목록 페이지로 이동합니다.`);
         navigate('/my/like');
       } else {
         alert("취소합니다.");
-        axios.post(`http://3.145.34.191:8080/programs/mylike/${Id}/`, {
+        axios.post(`http://127.0.0.1:8000/programs/mylike/${Id}/`, {
           iflike: 'false',
         })
       }
@@ -299,7 +299,7 @@ function ApplyPage() {
 
   const handleSearch = () => {
     console.log(region+' '+region2, category, sort)
-    axios.post(`http://3.145.34.191:8080/programs/search/`, {
+    axios.post(`http://127.0.0.1:8000/programs/search/`, {
       district: region+' '+region2, 
       category: category, 
       sort: sort
@@ -318,7 +318,7 @@ function ApplyPage() {
         id: response.data[i].id,
         title: response.data[i].title,
         district: response.data[i].district,
-        image: 'http://3.145.34.191:8080/'+response.data[i].image,
+        image: 'http://127.0.0.1:8000/'+response.data[i].image,
         agency: response.data[i].agency,
         deadline_yy: response.data[i].deadline_yy,
         deadline_mm: response.data[i].deadline_mm,
@@ -348,13 +348,13 @@ useEffect(() => {
 
 
 const fetchApplyCards = () => {
-  axios.get('http://3.145.34.191:8080/programs/list/')
+  axios.get('http://127.0.0.1:8000/programs/list/')
     .then(response => {
       setApplyCards(response.data);
       console.log(applyCards);
       const initialEditedCards = {};
       response.data.forEach(item => {
-        const fullImageUrl = `http://3.145.34.191:8080${item.image}`;
+        const fullImageUrl = `http://127.0.0.1:8000${item.image}`;
         initialEditedCards[item.id] = {
           id: item.id,
           title: item.title,

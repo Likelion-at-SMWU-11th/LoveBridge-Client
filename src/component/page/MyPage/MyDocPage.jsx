@@ -166,7 +166,7 @@ function MyDocPage() {
         } else {
             setValid(true);
             console.log(family,id);
-            axios.post('http://3.145.34.191:8080/mypage/mydocuments/', {
+            axios.post('http://127.0.0.1:8000/mypage/mydocuments/', {
                 file1: familyname,
                 file2: idname,
                 file3: registname,
@@ -183,7 +183,7 @@ function MyDocPage() {
 
     const fetchMyDoc = () => {
         console.log("성공");
-        axios.get('http://3.145.34.191:8080/mypage/mydocuments/') 
+        axios.get('http://127.0.0.1:8000/mypage/mydocuments/') 
         .then(response => (
             console.log(response.data),
             setFamilyname(response.data[0].file1),
