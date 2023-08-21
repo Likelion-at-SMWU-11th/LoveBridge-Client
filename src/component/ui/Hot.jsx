@@ -23,12 +23,12 @@ const Hot = () => {
 
   const fetchHotCards = () => {
     axios
-      .get("http://127.0.0.1:8000/programs/popular/")
+      .get("http://3.145.34.191:8080/programs/popular/")
       .then((response) => {
         setApplyCards(response.data);
         const initialEditedCards = {};
         response.data.forEach((item) => {
-          const fullImageUrl = `http://127.0.0.1:8000${item.image}`;
+          const fullImageUrl = `http://3.145.34.191:8080/${item.image}`;
           initialEditedCards[item.id] = {
             id: item.id,
             title: item.title,
@@ -78,7 +78,7 @@ const Hot = () => {
       e.target.parentElement.parentElement.parentElement.children[1].textContent;
     console.log(Id, programName);
     if (window.confirm(`[${programName}] 정말 신청하시겠습니까?`)) {
-      axios.post(`http://127.0.0.1:8000/programs/list/${Id}/`);
+      axios.post(`http://3.145.34.191:8080/programs/list/${Id}/`);
       alert(
         `[${programName}] 신청이 완료되었습니다. \n 마이페이지의 내가 신청한 프로그램 페이지로 이동합니다. `
       );
