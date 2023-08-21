@@ -28,7 +28,7 @@ const Hot = () => {
         setApplyCards(response.data);
         const initialEditedCards = {};
         response.data.forEach((item) => {
-          const fullImageUrl = `http://3.145.34.191:8080/${item.image}`;
+          const fullImageUrl = `http://3.145.34.191:8080${item.image}`;
           initialEditedCards[item.id] = {
             id: item.id,
             title: item.title,
