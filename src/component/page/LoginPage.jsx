@@ -99,7 +99,7 @@ function LoginPage() {
 
     const Rest_api_key = "12da077e9050dd98df72ac024e4ed35b"; //REST API KEY
   const redirect_uri =
-    "http://127.0.0.1:8000/accounts/login/kakao/user/callback/"; //Redirect URI
+    "http://3.145.34.191:8080/accounts/login/kakao/user/callback/"; //Redirect URI
   // oauth 요청 URL
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
   const handleLogin = () => {
@@ -108,11 +108,11 @@ function LoginPage() {
   };
     
   const handleGoogle = () => {
-    window.location.href = 'http://127.0.0.1:8000/accounts/login/google/';
+    window.location.href = 'http://3.145.34.191:8080/accounts/login/google/';
   };
 
   const handleNaver = () => {
-    window.location.href = 'http://127.0.0.1:8000/accounts/login/naver/';
+    window.location.href = 'http://3.145.34.191:8080/accounts/login/naver/';
   };
   return (
     <>
